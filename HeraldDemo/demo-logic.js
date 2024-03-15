@@ -31,7 +31,6 @@ function ghdmLoadScripts(callback) {
 					'herald-logic/herald-logic.js',
 					'herald-ui/herald-ui.js',
 					
-					'analytics-demo/ghdm-render-comparison.js',
 					'analytics-demo/ghdm-render-description.js',
 					'analytics-demo/ghdm-render-quality.js',
 					'analytics-demo/ghdm-render-scatter.js',
