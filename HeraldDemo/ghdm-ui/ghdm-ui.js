@@ -117,7 +117,6 @@ function initCohortSelection(cohorts) {
 }
 
 
-
 /**
  * Initializes tooltips
  */
