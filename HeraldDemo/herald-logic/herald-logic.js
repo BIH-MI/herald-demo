@@ -24,8 +24,8 @@ function getHeraldLexer(ignoreErrors = false) {
        field: ['LABEL', 'VALUE', 'UNIT', 'START', 'END', 'NUMERIC'],
        aggregation: ['AVERAGE', 'COUNT', 'SUM', 'MIN', 'MAX', 'MOST FREQUENT'],
        selection: ['FIRST', 'LAST', 'ANY'],
-       relationship: ['RATIO BETWEEN', 'DIFFERENCE BETWEEN', 'EQUALITY OF'],
-       existence: ['EXISTS', 'NOT EXISTS'],
+       comparison: ['RATIO BETWEEN', 'DIFFERENCE BETWEEN', 'EQUALITY OF'],
+       search: ['EXISTS', 'NOT EXISTS'],
        temporalRelationship: ['BEFORE', 'AFTER', 'APART FROM', 'CLOSE TO', 'BEFORE AND CLOSE TO', 'AFTER AND CLOSE TO'],
        temporalRelationshipConnector: ['BY'],
        temporalUnit: ['DAYS', 'WEEKS', 'MONTHS', 'YEARS', 'DAY', 'WEEK', 'MONTH', 'YEAR'],
@@ -49,8 +49,8 @@ const heraldTokenColorMap = new Map([
    ['field', '#6a5acd'], // Slate blue for fields
    ['aggregation', '#4682b4'], // Steel blue
    ['selection', '#4682b4'], // Steel blue for selections
-   ['relationship', '#4682b4'], // Steel blue
-   ['existence', '#4682b4'], // Steel blue
+   ['comparison', '#4682b4'], // Steel blue
+   ['search', '#4682b4'], // Steel blue
    ['temporalRelationship', '#b22222'], // Firebrick for temporal relationships
    ['temporalRelationshipConnector', '#da70d6'], // Orchid
    ['temporalUnit', '#808000'] // Olive for temporal units
@@ -98,8 +98,8 @@ window.Herald = Herald;
         field: ['LABEL', 'VALUE', 'UNIT', 'START', 'END', 'NUMERIC'],
         aggregation: ['AVERAGE', 'COUNT', 'SUM', 'MIN', 'MAX', 'MOST FREQUENT'],
         selection: ['FIRST', 'LAST', 'ANY'],
-        relationship: ['RATIO BETWEEN', 'DIFFERENCE BETWEEN', 'EQUALITY OF'],
-        existence: ['EXISTS', 'NOT EXISTS'],
+        comparison: ['RATIO BETWEEN', 'DIFFERENCE BETWEEN', 'EQUALITY OF'],
+        search: ['EXISTS', 'NOT EXISTS'],
         temporalRelationship: ['BEFORE', 'AFTER', 'APART FROM', 'CLOSE TO', 'BEFORE AND CLOSE TO', 'AFTER AND CLOSE TO'],
         temporalRelationshipConnector: ['BY'],
         temporalUnit: ['DAYS', 'WEEKS', 'MONTHS', 'YEARS', 'DAY', 'WEEK', 'MONTH', 'YEAR'],
@@ -137,28 +137,28 @@ window.Herald = Herald;
             {"name": "query$ebnf$12", "symbols": ["query$ebnf$12", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
             {"name": "query$ebnf$13", "symbols": ["temporalRelationship"], "postprocess": id},
             {"name": "query$ebnf$13", "symbols": [], "postprocess": function(d) {return null;}},
-            {"name": "query", "symbols": [(lexer.has("relationship") ? {type: "relationship"} : relationship), "query$ebnf$9", "filter", "query$ebnf$10", (lexer.has("conjunctionAnd") ? {type: "conjunctionAnd"} : conjunctionAnd), "query$ebnf$11", "filter", "query$ebnf$12", "query$ebnf$13"], "postprocess": function (d) { return {relationship: d[0], filter1: d[2], filter2: d[6], time: d[8]}; }},
+            {"name": "query", "symbols": [(lexer.has("comparison") ? {type: "comparison"} : comparison), "query$ebnf$9", "filter", "query$ebnf$10", (lexer.has("conjunctionAnd") ? {type: "conjunctionAnd"} : conjunctionAnd), "query$ebnf$11", "filter", "query$ebnf$12", "query$ebnf$13"], "postprocess": function (d) { return {comparison: d[0], filter1: d[2], filter2: d[6], time: d[8]}; }},
             {"name": "query$ebnf$14", "symbols": []},
             {"name": "query$ebnf$14", "symbols": ["query$ebnf$14", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
             {"name": "query$ebnf$15", "symbols": ["temporalRelationship"], "postprocess": id},
             {"name": "query$ebnf$15", "symbols": [], "postprocess": function(d) {return null;}},
-            {"name": "query", "symbols": ["existenceQuery", "query$ebnf$14", "query$ebnf$15"], "postprocess": function (d) { return {existence: d[0], time: d[2]}; }},
-            {"name": "existenceQuery$ebnf$1", "symbols": []},
-            {"name": "existenceQuery$ebnf$1", "symbols": ["existenceQuery$ebnf$1", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-            {"name": "existenceQuery$ebnf$2", "symbols": []},
-            {"name": "existenceQuery$ebnf$2", "symbols": ["existenceQuery$ebnf$2", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-            {"name": "existenceQuery$ebnf$3", "symbols": []},
-            {"name": "existenceQuery$ebnf$3", "symbols": ["existenceQuery$ebnf$3", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-            {"name": "existenceQuery", "symbols": ["existenceQuery$ebnf$1", (lexer.has("existence") ? {type: "existence"} : existence), "existenceQuery$ebnf$2", "filter", "existenceQuery$ebnf$3"], "postprocess": function (d) { return {existence: d[1], filter: d[3]}; }},
-            {"name": "existenceQuery$ebnf$4", "symbols": []},
-            {"name": "existenceQuery$ebnf$4", "symbols": ["existenceQuery$ebnf$4", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-            {"name": "existenceQuery$ebnf$5", "symbols": []},
-            {"name": "existenceQuery$ebnf$5", "symbols": ["existenceQuery$ebnf$5", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-            {"name": "existenceQuery$ebnf$6", "symbols": []},
-            {"name": "existenceQuery$ebnf$6", "symbols": ["existenceQuery$ebnf$6", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-            {"name": "existenceQuery$ebnf$7", "symbols": []},
-            {"name": "existenceQuery$ebnf$7", "symbols": ["existenceQuery$ebnf$7", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-            {"name": "existenceQuery", "symbols": ["existenceQuery$ebnf$4", "existenceQuery", "existenceQuery$ebnf$5", (lexer.has("conjunctionAnd") ? {type: "conjunctionAnd"} : conjunctionAnd), "existenceQuery$ebnf$6", "existenceQuery", "existenceQuery$ebnf$7"], "postprocess": function (d) { return {left: d[1], conjunction: d[3], right: d[5]}; }},
+            {"name": "query", "symbols": ["searchQuery", "query$ebnf$14", "query$ebnf$15"], "postprocess": function (d) { return {search: d[0], time: d[2]}; }},
+            {"name": "searchQuery$ebnf$1", "symbols": []},
+            {"name": "searchQuery$ebnf$1", "symbols": ["searchQuery$ebnf$1", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+            {"name": "searchQuery$ebnf$2", "symbols": []},
+            {"name": "searchQuery$ebnf$2", "symbols": ["searchQuery$ebnf$2", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+            {"name": "searchQuery$ebnf$3", "symbols": []},
+            {"name": "searchQuery$ebnf$3", "symbols": ["searchQuery$ebnf$3", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+            {"name": "searchQuery", "symbols": ["searchQuery$ebnf$1", (lexer.has("search") ? {type: "search"} : search), "searchQuery$ebnf$2", "filter", "searchQuery$ebnf$3"], "postprocess": function (d) { return {search: d[1], filter: d[3]}; }},
+            {"name": "searchQuery$ebnf$4", "symbols": []},
+            {"name": "searchQuery$ebnf$4", "symbols": ["searchQuery$ebnf$4", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+            {"name": "searchQuery$ebnf$5", "symbols": []},
+            {"name": "searchQuery$ebnf$5", "symbols": ["searchQuery$ebnf$5", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+            {"name": "searchQuery$ebnf$6", "symbols": []},
+            {"name": "searchQuery$ebnf$6", "symbols": ["searchQuery$ebnf$6", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+            {"name": "searchQuery$ebnf$7", "symbols": []},
+            {"name": "searchQuery$ebnf$7", "symbols": ["searchQuery$ebnf$7", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
+            {"name": "searchQuery", "symbols": ["searchQuery$ebnf$4", "searchQuery", "searchQuery$ebnf$5", (lexer.has("conjunctionAnd") ? {type: "conjunctionAnd"} : conjunctionAnd), "searchQuery$ebnf$6", "searchQuery", "searchQuery$ebnf$7"], "postprocess": function (d) { return {left: d[1], conjunction: d[3], right: d[5]}; }},
             {"name": "filter", "symbols": [(lexer.has("lparen") ? {type: "lparen"} : lparen), "expression", (lexer.has("rparen") ? {type: "rparen"} : rparen)], "postprocess": function (d) { return {expression: d[1]}; }},
             {"name": "expression$ebnf$1", "symbols": []},
             {"name": "expression$ebnf$1", "symbols": ["expression$ebnf$1", (lexer.has("WS") ? {type: "WS"} : WS)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
@@ -820,12 +820,12 @@ function parseFilter(observations, query) {
   }
   
   /** 
-   * Process relationship query
+   * Process comparison query
   */
-  function parseRelationship(observations, query) {
+  function parseComparison(observations, query) {
 
     query = unwrapExpression(query);
-    if (HERALD_DEBUG) console.log("Evaluate relationship query: " + JSON.stringify(query, null, 2));
+    if (HERALD_DEBUG) console.log("Evaluate comparison query: " + JSON.stringify(query, null, 2));
 
     function filterObservations(observations, filter, temporalRelationship) {
       return observations.filter((obs) => {
@@ -833,7 +833,7 @@ function parseFilter(observations, query) {
       });
     }
   
-    function applyRelationship(obs1, obs2, relationship) {
+    function applyComparison(obs1, obs2, comparison) {
       if (!obs1 || !obs2) return new NullObservation();
   
       const value1 = parseValue(obs1.value);
@@ -852,7 +852,7 @@ function parseFilter(observations, query) {
       let unit1 = validateUnit(obs1.unit);
       let unit2 = validateUnit(obs2.unit);
       
-      switch (String(relationship)) {
+      switch (String(comparison)) {
         case 'RATIO BETWEEN':
           resultValue = value1 / value2;
           resultUnit = "(" + unit1 + ") / (" + unit2 + ")";
@@ -866,7 +866,7 @@ function parseFilter(observations, query) {
           resultUnit = "Boolean";
           break;
         default:
-          throw new Error('Invalid relationship type: ' + relationship);
+          throw new Error('Invalid comparison type: ' + comparison);
       }
   
       return new QueryableObservation(obs1.label,
@@ -883,44 +883,44 @@ function parseFilter(observations, query) {
     const obs1 = filteredObservations1.length > 0 ? filteredObservations1[0] : null;
     const obs2 = filteredObservations2.length > 0 ? filteredObservations2[0] : null;
   
-    return applyRelationship(obs1, obs2, query.relationship);
+    return applyComparison(obs1, obs2, query.comparison);
   }
 
   /**
-   * Perform existence query
+   * Perform search query
    */
-  function parseExistence(observations, query) {
+  function parseSearch(observations, query) {
 
     query = unwrapExpression(query);
-    if (HERALD_DEBUG) console.log("Evaluate existence query: " + JSON.stringify(query, null, 2));
+    if (HERALD_DEBUG) console.log("Evaluate search query: " + JSON.stringify(query, null, 2));
 
-    function evaluateExistence(obsList, existenceFilter, temporalRelationship, existence) {
+    function evaluateSearch(obsList, searchFilter, temporalRelationship, search) {
       const exists = obsList.filter((obs) => {
-        return evaluateFilterExpression(existenceFilter, obs) && (temporalRelationship ? evaluateTemporalRelationship(obs, temporalRelationship, observations) : true);
+        return evaluateFilterExpression(searchFilter, obs) && (temporalRelationship ? evaluateTemporalRelationship(obs, temporalRelationship, observations) : true);
       }).length > 0;
-      if (existence.value === 'EXISTS') {
+      if (search.value === 'EXISTS') {
         return exists;
-      } else if (existence.value === 'NOT EXISTS') {
+      } else if (search.value === 'NOT EXISTS') {
         return !exists;
       } else {
-        throw new Error("Unexpected existence keyword: " + existence.value);
+        throw new Error("Unexpected search keyword: " + search.value);
       }
     }
   
-    function applyExistenceQuery(existenceQuery, temporalRelationship) {
-      if (existenceQuery.existence) {
-        return evaluateExistence(observations, existenceQuery.filter, temporalRelationship, existenceQuery.existence);
-      } else if (existenceQuery.left && existenceQuery.conjunction) {
-        const leftResult = applyExistenceQuery(existenceQuery.left, temporalRelationship);
-        const rightResult = applyExistenceQuery(existenceQuery.right, temporalRelationship);
+    function applySearchQuery(searchQuery, temporalRelationship) {
+      if (searchQuery.search) {
+        return evaluateSearch(observations, searchQuery.filter, temporalRelationship, searchQuery.search);
+      } else if (searchQuery.left && searchQuery.conjunction) {
+        const leftResult = applySearchQuery(searchQuery.left, temporalRelationship);
+        const rightResult = applySearchQuery(searchQuery.right, temporalRelationship);
         return leftResult && rightResult;
       }
   
-      throw new Error("Invalid existence query format");
+      throw new Error("Invalid search query format");
     }
   
-    const value = applyExistenceQuery(query.existence, query.time) ? "true" : "false";
-    const label = "Existence result";
+    const value = applySearchQuery(query.search, query.time) ? "true" : "false";
+    const label = "Search result";
     const unit = "Boolean";
     const start = observations && observations.length > 0 ? observations.reduce((min, obs) => obs.start < min ? obs.start : min, observations[0].start) : Date();
     const end = observations && observations.length > 0 ? observations.reduce((max, obs) => obs.end > max ? obs.end : max, observations[0].end) : Date();
@@ -937,7 +937,7 @@ function parseFilter(observations, query) {
  * Check if this is a filter query
  */
 function isFilterQuery(parsedResult) {
-    return parsedResult.hasOwnProperty('filter') && !parsedResult.hasOwnProperty('aggregation') && !parsedResult.hasOwnProperty('selection') && !parsedResult.hasOwnProperty('relationship') && !parsedResult.hasOwnProperty('existence');
+    return parsedResult.hasOwnProperty('filter') && !parsedResult.hasOwnProperty('aggregation') && !parsedResult.hasOwnProperty('selection') && !parsedResult.hasOwnProperty('comparison') && !parsedResult.hasOwnProperty('search');
   }
   
  /**
@@ -955,17 +955,17 @@ function isFilterQuery(parsedResult) {
   }
   
   /**
-   * Check if is a relationship query
+   * Check if is a comparison query
    */
-  function isRelationshipQuery(parsedResult) {
-    return parsedResult.hasOwnProperty('relationship');
+  function isComparisonQuery(parsedResult) {
+    return parsedResult.hasOwnProperty('comparison');
   }
 
   /**
-   * Check if it is an existence query
+   * Check if it is an search query
    */
-  function isExistenceQuery(parsedResult) {
-    return parsedResult.hasOwnProperty('existence');
+  function isSearchQuery(parsedResult) {
+    return parsedResult.hasOwnProperty('search');
   }
 
   /**
@@ -978,10 +978,10 @@ function isFilterQuery(parsedResult) {
       return parseAggregation(observations, query);
     } else if (isSelectionQuery(query)) {
       return parseSelection(observations, query);
-    } else if (isRelationshipQuery(query)) {
-      return parseRelationship(observations, query);
-    } else if (isExistenceQuery(query)) {
-      return parseExistence(observations, query);
+    } else if (isComparisonQuery(query)) {
+      return parseComparison(observations, query);
+    } else if (isSearchQuery(query)) {
+      return parseSearch(observations, query);
     } else {
       throw new Error("Unknown query type");
     }

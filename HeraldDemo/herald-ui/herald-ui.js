@@ -768,8 +768,7 @@ function initializeHeraldUI(cohorts, callback) {
 var HeraldUI = window.HeraldUI || {};
 Object.assign(HeraldUI, {
   initializeHeraldUI: initializeHeraldUI,
-  checkSpecBuildTables: checkSpecBuildTables,
-  setLabelAndQueryManually: setLabelAndQueryManually
+  checkSpecBuildTables: checkSpecBuildTables
 });
 window.HeraldUI = HeraldUI;
 
@@ -816,17 +815,17 @@ function isSelectionQuery(parsedResult) {
 }
 
 /**
- * Check if is a relationship query
+ * Check if is a comparison query
  */
-function isRelationshipQuery(parsedResult) {
-    return parsedResult.hasOwnProperty('relationship');
+function isComparisonQuery(parsedResult) {
+    return parsedResult.hasOwnProperty('comparison');
 }
 
 /**
- * Check if it is an existence query
+ * Check if it is an search query
  */
-function isExistenceQuery(parsedResult) {
-    return parsedResult.hasOwnProperty('existence');
+function isSearchQuery(parsedResult) {
+    return parsedResult.hasOwnProperty('search');
 }
 
 /**
@@ -939,9 +938,9 @@ function bindSelectionOrAggregationQuery(modal, query) {
 }
 
 /**
- * Parse relationship query
+ * Parse comparison query
  */
-function bindRelationshipQuery(modal, query) {
+function bindComparisonQuery(modal, query) {
 
     // Unwrap
     query = unwrapExpression(query);
@@ -949,25 +948,25 @@ function bindRelationshipQuery(modal, query) {
     // Get UI elements
     const queryKeywordSelect = modal.querySelector('#queryKeywordSelect');
     const queryFilterInput = modal.querySelector('#queryFilterInput');
-    const relationshipQueryFilterRow = modal.querySelector('#relationshipQueryFilterRow');
-    const relationshipQueryFilterInput = modal.querySelector('.relationshipQueryFilterInput');
+    const comparisonQueryFilterRow = modal.querySelector('#comparisonQueryFilterRow');
+    const comparisonQueryFilterInput = modal.querySelector('.comparisonQueryFilterInput');
 
     // Update the query type
-    queryKeywordSelect.value = query.relationship.value;
+    queryKeywordSelect.value = query.comparison.value;
     // Parse filter
     bindFilter(queryFilterInput, query.filter1);
-    bindFilter(relationshipQueryFilterInput, query.filter2);
+    bindFilter(comparisonQueryFilterInput, query.filter2);
     // Parse temporal relationship
     bindTemporalRelationship(modal, query.time);
 
     // Show row
-    relationshipQueryFilterRow.parentNode.style.display = 'block';
+    comparisonQueryFilterRow.parentNode.style.display = 'block';
 }
 
 /**
- * Parse existence query
+ * Parse search query
  */
-function bindExistenceQuery(modal, query) {
+function bindSearchQuery(modal, query) {
 
     // Unwrap
     query = unwrapExpression(query);
@@ -977,31 +976,31 @@ function bindExistenceQuery(modal, query) {
     const queryFilterInput = modal.querySelector('#queryFilterInput');
   
     // Recursive function for parsing the expression
-    function parseExistenceStatement(existenceQuery, keywordElement, filterElement) {
+    function parseSearchStatement(searchQuery, keywordElement, filterElement) {
 
       // Leaf
-      if (existenceQuery.existence) {
+      if (searchQuery.search) {
         // Set keyword and filter
-        keywordElement.value = existenceQuery.existence.value;
-        bindFilter(filterElement, existenceQuery.filter);
+        keywordElement.value = searchQuery.search.value;
+        bindFilter(filterElement, searchQuery.filter);
 
       // Inner node
-      } else if (existenceQuery.left && existenceQuery.conjunction) {
+      } else if (searchQuery.left && searchQuery.conjunction) {
 
         // Create new row
         const lastKeywordFilterRow = modal.querySelector('.keywordFilterRow:last-child');
-        addExistenceQueryRow(lastKeywordFilterRow);
-        const newKeywordElement = lastKeywordFilterRow.querySelector('.existenceQueryKeywordSelect');
-        const newFilterElement = lastKeywordFilterRow.querySelector('.existenceQueryFilterInput');
+        addSearchQueryRow(lastKeywordFilterRow);
+        const newKeywordElement = lastKeywordFilterRow.querySelector('.searchQueryKeywordSelect');
+        const newFilterElement = lastKeywordFilterRow.querySelector('.searchQueryFilterInput');
 
         // Recurse
-        parseExistenceStatement(existenceQuery.left, keywordElement, filterElement);
-        parseExistenceStatement(existenceQuery.right, newKeywordElement, newFilterElement);
+        parseSearchStatement(searchQuery.left, keywordElement, filterElement);
+        parseSearchStatement(searchQuery.right, newKeywordElement, newFilterElement);
       }
     }
 
-    // Parse existence
-    parseExistenceStatement(query.existence, queryKeywordSelect, queryFilterInput);
+    // Parse search
+    parseSearchStatement(query.search, queryKeywordSelect, queryFilterInput);
   
     // Parse temporal relationship
     bindTemporalRelationship(modal, query.time);
@@ -1030,12 +1029,12 @@ function bindQuery(modal, query) {
     } else if (isSelectionQuery(parsedQuery)) {
       bindQueryType(modal, 'selection');
       bindSelectionOrAggregationQuery(modal, parsedQuery);
-    } else if (isRelationshipQuery(parsedQuery)) {
-      bindQueryType(modal, 'relationship');
-      bindRelationshipQuery(modal, parsedQuery);
-    } else if (isExistenceQuery(parsedQuery)) {
-      bindQueryType(modal, 'existence');
-      bindExistenceQuery(modal, parsedQuery);
+    } else if (isComparisonQuery(parsedQuery)) {
+      bindQueryType(modal, 'comparison');
+      bindComparisonQuery(modal, parsedQuery);
+    } else if (isSearchQuery(parsedQuery)) {
+      bindQueryType(modal, 'search');
+      bindSearchQuery(modal, parsedQuery);
     }
   }
 }
@@ -1245,7 +1244,7 @@ function renderQuery(modal) {
     let timeUnit = timeUnitSelect.value.toUpperCase();
     let temporalAnchorValue = temporalRelationshipTypeInput.value;
   
-    // Build temporal relationship
+    // Build temporal comparison
     let temporalRelationshipString = undefined;
     if (temporalRelationship && temporalRelationship !== 'NO TEMPORAL RESTRICTION') {
       if (timeUnit && timeUnit !== 'NONE') {
@@ -1259,22 +1258,22 @@ function renderQuery(modal) {
     if (queryType === "SELECTION" || queryType === "AGGREGATION") {
       return `${keyword} ${addParentheses(filter)}` + (temporalRelationshipString ? ' ' + temporalRelationshipString : '');
 
-    // Relationship query
-    } else if (queryType === "RELATIONSHIP") {
-      const relationshipQueryFilterInput = modal.querySelector(".relationshipQueryFilterInput");
-      let relationshipFilter = relationshipQueryFilterInput.value;
-      return `${keyword} ${addParentheses(filter)} AND ${addParentheses(relationshipFilter)}` + (temporalRelationshipString ? ' ' + temporalRelationshipString : '');
+    // Comparison query
+    } else if (queryType === "COMPARISON") {
+      const comparisonQueryFilterInput = modal.querySelector(".comparisonQueryFilterInput");
+      let comparisonFilter = comparisonQueryFilterInput.value;
+      return `${keyword} ${addParentheses(filter)} AND ${addParentheses(comparisonFilter)}` + (temporalRelationshipString ? ' ' + temporalRelationshipString : '');
     
-    // Existence query
-    } else if (queryType === "EXISTENCE") {
-      const existenceRows = Array.from(modal.querySelectorAll(".keywordFilterRow"));
-      existenceRows.pop();
-      let existenceFilters = existenceRows.map(row => {
-        const keywordSelect = row.querySelector(".existenceQueryKeywordSelect");
-        const filterInput = row.querySelector(".existenceQueryFilterInput");
+    // Search query
+    } else if (queryType === "SEARCH") {
+      const searchRows = Array.from(modal.querySelectorAll(".keywordFilterRow"));
+      searchRows.pop();
+      let searchFilters = searchRows.map(row => {
+        const keywordSelect = row.querySelector(".searchQueryKeywordSelect");
+        const filterInput = row.querySelector(".searchQueryFilterInput");
         return `AND ${keywordSelect.value.toUpperCase()} ${addParentheses(filterInput.value)}`;
       }).join(" ");
-      return `${keyword} ${addParentheses(filter)}` + (existenceFilters ? ' ' + existenceFilters : '') + (temporalRelationshipString ? ' ' + temporalRelationshipString : '');
+      return `${keyword} ${addParentheses(filter)}` + (searchFilters ? ' ' + searchFilters : '') + (temporalRelationshipString ? ' ' + temporalRelationshipString : '');
     } 
     
     // No result
@@ -1325,8 +1324,8 @@ window.HeraldUI = HeraldUI;
 const queryTypeKeywords = {
   selection: ['FIRST', 'LAST', 'ANY'],
   aggregation: ['AVERAGE', 'COUNT', 'SUM', 'MIN', 'MAX', 'MOST FREQUENT'],
-  existence: ['EXISTS', 'NOT EXISTS'],
-  relationship: ['RATIO BETWEEN', 'DIFFERENCE BETWEEN', 'EQUALITY OF'],
+  search: ['EXISTS', 'NOT EXISTS'],
+  comparison: ['RATIO BETWEEN', 'DIFFERENCE BETWEEN', 'EQUALITY OF'],
 };
 
 /**
@@ -1472,7 +1471,7 @@ async function showHeraldQueryModal(name, query) {
       }
     });
 
-    // Existence query row cloning
+    // Search query row cloning
     document.addEventListener('click', function (event) {
 
       // Prepare
@@ -1483,12 +1482,12 @@ async function showHeraldQueryModal(name, query) {
       }
       
       // Add row
-      if (target.classList.contains('existenceAddButton')) {
-          addExistenceQueryRow(keywordFilterRow);
+      if (target.classList.contains('searchAddButton')) {
+          addSearchQueryRow(keywordFilterRow);
       // Remove row
-      } else if (target.classList.contains('existenceRemoveButton')) {
+      } else if (target.classList.contains('searchRemoveButton')) {
         if (keywordFilterRow.parentNode.querySelectorAll('.keywordFilterRow').length > 1) {
-          removeExistenceQueryRow(keywordFilterRow);
+          removeSearchQueryRow(keywordFilterRow);
         }
       }
     });
@@ -1563,25 +1562,25 @@ async function showHeraldQueryModal(name, query) {
     const timeUnitSelect = event.target.value;
     updateTemporalRelationshipInput();
   });
-  const existenceQueryFilterInput = queryModal.querySelectorAll('.existenceQueryFilterInput')[0];
-  existenceQueryFilterInput.addEventListener('focus', function () {
+  const searchQueryFilterInput = queryModal.querySelectorAll('.searchQueryFilterInput')[0];
+  searchQueryFilterInput.addEventListener('focus', function () {
     showQueryBuilder(this);
   });
-  existenceQueryFilterInput.addEventListener('input', function () {
+  searchQueryFilterInput.addEventListener('input', function () {
     showQueryBuilder(this);
   });
-  existenceQueryFilterInput.addEventListener('blur', function () {
-    $(existenceQueryFilterInput).removeClass('is-invalid');
+  searchQueryFilterInput.addEventListener('blur', function () {
+    $(searchQueryFilterInput).removeClass('is-invalid');
   });
-  const relationshipQueryFilterInput = queryModal.querySelector('.relationshipQueryFilterInput');
-  relationshipQueryFilterInput.addEventListener('focus', function () {
+  const comparisonQueryFilterInput = queryModal.querySelector('.comparisonQueryFilterInput');
+  comparisonQueryFilterInput.addEventListener('focus', function () {
     showQueryBuilder(this);
   });
-  relationshipQueryFilterInput.addEventListener('input', function () {
+  comparisonQueryFilterInput.addEventListener('input', function () {
     showQueryBuilder(this);
   });
-  relationshipQueryFilterInput.addEventListener('blur', function () {
-    $(relationshipQueryFilterInput).removeClass('is-invalid');
+  comparisonQueryFilterInput.addEventListener('blur', function () {
+    $(comparisonQueryFilterInput).removeClass('is-invalid');
   });
   const queryFilterInput = queryModal.querySelector('#queryFilterInput');
   queryFilterInput.addEventListener('focus', function () {
@@ -1657,38 +1656,38 @@ async function showHeraldQueryModal(name, query) {
 }
 
 /**
- * Function to add an existence query row
+ * Function to add an search query row
  */
-function addExistenceQueryRow(keywordFilterRow) {
+function addSearchQueryRow(keywordFilterRow) {
 
-  const existenceQueryAddButton = keywordFilterRow.querySelector('.existenceAddButton');
-  const existenceQueryRemoveButton = keywordFilterRow.querySelector('.existenceRemoveButton');
-  const existenceQueryKeywordSelect = keywordFilterRow.querySelector('.existenceQueryKeywordSelect');
-  const existenceQueryFilterInput = keywordFilterRow.querySelector('.existenceQueryFilterInput');
+  const searchQueryAddButton = keywordFilterRow.querySelector('.searchAddButton');
+  const searchQueryRemoveButton = keywordFilterRow.querySelector('.searchRemoveButton');
+  const searchQueryKeywordSelect = keywordFilterRow.querySelector('.searchQueryKeywordSelect');
+  const searchQueryFilterInput = keywordFilterRow.querySelector('.searchQueryFilterInput');
 
   // Clone row
   const newRow = keywordFilterRow.cloneNode(true);
   keywordFilterRow.parentNode.insertBefore(newRow, keywordFilterRow.nextSibling);
 
   // Attach listeners to clone
-  let newexistenceQueryFilterInput = newRow.getElementsByClassName('existenceQueryFilterInput')[0];
-  newexistenceQueryFilterInput.addEventListener('focus', function () {
+  let newsearchQueryFilterInput = newRow.getElementsByClassName('searchQueryFilterInput')[0];
+  newsearchQueryFilterInput.addEventListener('focus', function () {
     showQueryBuilder(this);
   });
-  newexistenceQueryFilterInput.addEventListener('input', function () {
+  newsearchQueryFilterInput.addEventListener('input', function () {
     showQueryBuilder(this);
   });
-  newexistenceQueryFilterInput.addEventListener('blur', function () {
-    $(newexistenceQueryFilterInput).removeClass('is-invalid');
+  newsearchQueryFilterInput.addEventListener('blur', function () {
+    $(newsearchQueryFilterInput).removeClass('is-invalid');
   });
   
   // Update buttons
-  existenceQueryAddButton.parentNode.style.display = 'none';
-  existenceQueryRemoveButton.parentNode.style.display = 'none';
-  existenceQueryKeywordSelect.parentNode.style.display = 'block';
-  existenceQueryFilterInput.parentNode.style.display = 'block';
+  searchQueryAddButton.parentNode.style.display = 'none';
+  searchQueryRemoveButton.parentNode.style.display = 'none';
+  searchQueryKeywordSelect.parentNode.style.display = 'block';
+  searchQueryFilterInput.parentNode.style.display = 'block';
   if (keywordFilterRow.parentNode.querySelectorAll('.keywordFilterRow').length > 1) {
-    keywordFilterRow.parentNode.querySelectorAll('.existenceRemoveButton').forEach(btn => btn.removeAttribute('disabled'));
+    keywordFilterRow.parentNode.querySelectorAll('.searchRemoveButton').forEach(btn => btn.removeAttribute('disabled'));
   }
 
   // Done
@@ -1696,9 +1695,9 @@ function addExistenceQueryRow(keywordFilterRow) {
 }
 
 /**
- * Removes an existence row
+ * Removes an search row
  */
-function removeExistenceQueryRow(keywordFilterRow) {
+function removeSearchQueryRow(keywordFilterRow) {
   
   // Remove row
   const prevRow = keywordFilterRow.previousElementSibling;
@@ -1707,10 +1706,10 @@ function removeExistenceQueryRow(keywordFilterRow) {
 
   if (prevRow) {
     // Update buttons
-    const prevAddButton = prevRow.querySelector('.existenceAddButton');
-    const prevRemoveButton = prevRow.querySelector('.existenceRemoveButton');
-    const prevQueryKeywordSelect = prevRow.querySelector('.existenceQueryKeywordSelect');
-    const prevQueryFilterInput = prevRow.querySelector('.existenceQueryFilterInput');
+    const prevAddButton = prevRow.querySelector('.searchAddButton');
+    const prevRemoveButton = prevRow.querySelector('.searchRemoveButton');
+    const prevQueryKeywordSelect = prevRow.querySelector('.searchQueryKeywordSelect');
+    const prevQueryFilterInput = prevRow.querySelector('.searchQueryFilterInput');
     prevRemoveButton.parentNode.style.display = 'block';
     prevAddButton.parentNode.style.display = 'block';
     prevQueryKeywordSelect.parentNode.style.display = 'none';
@@ -1718,7 +1717,7 @@ function removeExistenceQueryRow(keywordFilterRow) {
   }
 
   if (parentNode.querySelectorAll('.keywordFilterRow').length === 1) {
-    parentNode.querySelector('.existenceRemoveButton').setAttribute('disabled', true);
+    parentNode.querySelector('.searchRemoveButton').setAttribute('disabled', true);
   }
 }
 
@@ -1736,17 +1735,17 @@ function updateQueryConfiguration(queryType) {
       keywordSelect.add(option);
     }
   }
-  const existenceKeywordFilterRows = queryModal.querySelector('#existenceKeywordFilterRows');
-  if (queryType === 'existence') {
-    existenceKeywordFilterRows.style.display = 'block';
+  const searchKeywordFilterRows = queryModal.querySelector('#searchKeywordFilterRows');
+  if (queryType === 'search') {
+    searchKeywordFilterRows.style.display = 'block';
   } else {
-    existenceKeywordFilterRows.style.display = 'none';
+    searchKeywordFilterRows.style.display = 'none';
   }
-  const relationshipQueryFilterRows = queryModal.querySelector('#relationshipQueryFilterRow');
-  if (queryType === 'relationship') {
-    relationshipQueryFilterRows.style.display = 'block';
+  const comparisonQueryFilterRows = queryModal.querySelector('#comparisonQueryFilterRow');
+  if (queryType === 'comparison') {
+    comparisonQueryFilterRows.style.display = 'block';
   } else {
-    relationshipQueryFilterRows.style.display = 'none';
+    comparisonQueryFilterRows.style.display = 'none';
   }
 }
 
@@ -1829,8 +1828,8 @@ function initHeraldQueryBuilderModal() {
                   <select class="form-select small" id="queryTypeSelect">
                       <option value="selection" selected>Selection</option>
                       <option value="aggregation">Aggregation</option>
-                      <option value="relationship">Relationship</option>
-                      <option value="existence">Existence</option>
+                      <option value="comparison">Comparison</option>
+                      <option value="search">Search</option>
                   </select>
                   </div>
               </div>
@@ -1844,37 +1843,37 @@ function initHeraldQueryBuilderModal() {
                   <input type="text" class="form-control small herald-auto-complete" id="queryFilterInput" placeholder="Filter">
                   </div>
               </div>
-              <!-- Additional rows for existence queries-->
-              <div id="existenceKeywordFilterRows" style="display: none;">
+              <!-- Additional rows for search queries-->
+              <div id="searchKeywordFilterRows" style="display: none;">
                   <div class="keywordFilterRow">
                   <div class="row mb-2">
                       <div class="col px-1" style="display: none;">
-                      <select class="form-select small existenceQueryKeywordSelect">
+                      <select class="form-select small searchQueryKeywordSelect">
                           <option value="EXISTS" selected>AND EXISTS</option>>
                           <option value="NOT EXISTS">AND NOT EXISTS</option>
                       </select>
                       </div>
                       <div class="col px-1" style="display: none;">
-                      <input type="text" class="form-control small existenceQueryFilterInput herald-auto-complete" placeholder="Filter">
+                      <input type="text" class="form-control small searchQueryFilterInput herald-auto-complete" placeholder="Filter">
                       </div>
                       <div class="col px-1">
-                      <button type="button" class="btn btn-primary btn-sm w-100 existenceAddButton">Add</button>
+                      <button type="button" class="btn btn-primary btn-sm w-100 searchAddButton">Add</button>
                       </div>
                       <div class="col px-1">
-                      <button type="button" class="btn btn-danger btn-sm w-100 existenceRemoveButton" disabled>Remove</button>
+                      <button type="button" class="btn btn-danger btn-sm w-100 searchRemoveButton" disabled>Remove</button>
                       </div>
                   </div>
                   </div>
               </div>
-              <!-- Additional row for relationship queries-->
-              <div id="relationshipQueryFilterRow" style="display: none;">
-                  <div class="relationshipFilterRow">
+              <!-- Additional row for comparison queries-->
+              <div id="comparisonQueryFilterRow" style="display: none;">
+                  <div class="comparisonFilterRow">
                   <div class="row mb-2 px-1">
                       <div class="col d-flex justify-content-end px-1">
                           <span class="small">AND</span>
                       </div>
                       <div class="col px-1">
-                      <input type="text" class="form-control small relationshipQueryFilterInput herald-auto-complete" placeholder="Filter">
+                      <input type="text" class="form-control small comparisonQueryFilterInput herald-auto-complete" placeholder="Filter">
                       </div>
                   </div>
                   </div>
