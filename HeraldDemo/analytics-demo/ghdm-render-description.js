@@ -75,7 +75,43 @@ function renderDescriptiveStatistics(cohortLabels, tables, outputDivId) {
 
   outputDiv.appendChild(controlsDiv);
 
-  // Step 2: Render data based on checked headers
+  // Step 2: Uncheck boxes that show 100% bars
+  function uncheckHeadersWithUniformValues(tables) {
+    const uniqueHeaders = new Set(tables.flatMap(table => table[0]));
+    uniqueHeaders.forEach(header => {
+      let shouldUncheck = true;
+  
+      // Check each table for uniformity under the current header
+      for (const table of tables) {
+        const headerIndex = table[0].indexOf(header);
+        // If the header doesn't exist in the table, skip this table
+        if (headerIndex === -1) continue;
+  
+        //const firstValue = table[1][headerIndex].value;
+        //const isUniformInTable = table.slice(1).every(row => row[headerIndex].value !== null && row[headerIndex].value === firstValue);
+        const firstValue = table[1][headerIndex] ? table[1][headerIndex].value : null;
+        const isUniformInTable = table.slice(1).every(row => row[headerIndex] && row[headerIndex].value === firstValue);
+
+
+        // If any table does not have uniform values for this header, do not uncheck
+        if (!isUniformInTable) {
+          shouldUncheck = false;
+          break;
+        }
+      }
+  
+      // Uncheck the checkbox if all tables have uniform values for this header
+      if (shouldUncheck) {
+        const checkboxId = header.replace(/\s+/g, '') + 'Checkbox';
+        const checkbox = document.getElementById(checkboxId);
+        if (checkbox) {
+          checkbox.checked = false;
+        }
+      }
+    });
+  }
+
+  // Step 3: Render data based on checked headers
   function renderData() {
     const selectedHeaders = new Set(
       Array.from(document.querySelectorAll("#controls input:checked")).map(input => input.getAttribute("data-header"))
@@ -124,7 +160,10 @@ function renderDescriptiveStatistics(cohortLabels, tables, outputDivId) {
     window.dispatchEvent(event);
   }
 
+  uncheckHeadersWithUniformValues(tables);
   renderData(); // Initial rendering
+  
+  
 }
 
 /**
