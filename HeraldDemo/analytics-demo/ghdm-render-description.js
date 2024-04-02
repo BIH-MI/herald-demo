@@ -52,13 +52,17 @@ function renderDescriptiveStatistics(cohortLabels, tables, outputDivId) {
     checkbox.className = "form-check-input";
     checkbox.checked = true;
     checkbox.onchange = () => renderData();
-    checkbox.id = `${header.replace(/\s+/g, '')}Checkbox`;
+    checkbox.id = header === "Age" || header === "Sex" 
+                  ? `Patient${header.replace(/\s+/g, '')}Checkbox` 
+                  : `${header.replace(/\s+/g, '')}Checkbox`;
     checkbox.setAttribute("data-header", header);
 
     const label = document.createElement("label");
     label.className = "form-check-label";
+    // Update the label text based on the header
     label.setAttribute("for", checkbox.id);
-    label.innerText = header;
+    label.innerText = header === "Age" ? "Patient age" : 
+                      header === "Sex" ? "Patient sex" : header;
 
     formCheckDiv.appendChild(checkbox);
     formCheckDiv.appendChild(label);
@@ -290,7 +294,7 @@ function renderObservations(rows, header, cohortDiv, selectedHeaders) {
       }
     } else if (nonNumericValues.length > 0) {
       const categories = Array.from(new Set(nonNumericValues));
-      const counts = d3.rollup(nonNumericValues, v => v.length, d => d);
+      const counts = d3.rollup(nonNumericValues, v => (v.length / rows.length) * 100, d => d);
 
       const categoryData = {
         x: categories,
@@ -328,7 +332,7 @@ function renderObservations(rows, header, cohortDiv, selectedHeaders) {
  */
 function createNoDataDiv() {
   const noDataDiv = document.createElement('div');
-  noDataDiv.innerText = 'Not enough data';
+  noDataDiv.innerText = 'No or not enough data available';
   noDataDiv.className = 'alert alert-primary';
   noDataDiv.setAttribute('role', 'alert');
 
