@@ -87,11 +87,8 @@ function renderDescriptiveStatistics(cohortLabels, tables, outputDivId) {
         // If the header doesn't exist in the table, skip this table
         if (headerIndex === -1) continue;
   
-        //const firstValue = table[1][headerIndex].value;
-        //const isUniformInTable = table.slice(1).every(row => row[headerIndex].value !== null && row[headerIndex].value === firstValue);
         const firstValue = table[1][headerIndex] ? table[1][headerIndex].value : null;
         const isUniformInTable = table.slice(1).every(row => row[headerIndex] && row[headerIndex].value === firstValue);
-
 
         // If any table does not have uniform values for this header, do not uncheck
         if (!isUniformInTable) {
