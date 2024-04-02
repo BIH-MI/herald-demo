@@ -50,7 +50,7 @@
         dataUrl = 'test-data/cohort-comparison-chd-t2d.json';
         predifinedQueries = [
           ['FirstDiag', 'FIRST (LABEL = "*Diabetes*" OR LABEL = "*Coronary Heart Disease*") AFTER (1980-01-01)'],
-          ['Comorbidities', 'EXISTS (LABEL = "*Diabetes*") AND EXISTS ((LABEL = "*Coronary Heart Disease*"))'],
+          ['Comorbidities', 'EXISTS (LABEL = "*Diabetes*") AND EXISTS (LABEL = "*Coronary Heart Disease*")'],
           ['BodyMassIndex', 'AVERAGE (LABEL = "*Body Mass Index*" AND UNIT = "*kg/m2*") CLOSE TO ("FirstDiag") BY 6 MONTHS'],
           ['LDLCholesterol', 'FIRST (LABEL = "*Low Density Lipoprotein Cholesterol*" AND UNIT = "*mg/dL*") AFTER ("FirstDiag") BY 4 WEEKS'],
           ['HDLCholesterol', 'ANY (LABEL = "*High Density Lipoprotein Cholesterol*" AND UNIT = "*mg/dL*") CLOSE TO ("LDLCholesterol") BY 1 DAY'],
