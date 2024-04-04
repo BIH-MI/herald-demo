@@ -3,7 +3,7 @@
  * CrossSectionalAnalysisPlugin / Central init function for the plugin
  */
 
-i2b2.HeraldDemo.Init = function(div) {
+i2b2.herald-demo.Init = function(div) {
 
   GHDM_I2B2_DEBUG = false;
   GHDM_I2B2_SAMPLE_SIZE = 1000;
