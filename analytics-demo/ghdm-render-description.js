@@ -30,49 +30,50 @@ function renderDescriptiveStatistics(cohortLabels, tables, outputDivId) {
   const outputDiv = document.getElementById(outputDivId);
   outputDiv.innerHTML = "";
 
+  const instructionText = document.createElement("p");
+  instructionText.innerText = "Select observation(s) to visualize";
+  outputDiv.appendChild(instructionText);
+
   // Step 1: Identify all unique headers and create checkboxes
   const controlsDiv = document.createElement("div");
   controlsDiv.id = "controls";
+  controlsDiv.className = "col-12 d-flex flex-wrap position-relative border rounded justify-content-start gap-3 mb-3 my-2 mx-2";
+  controlsDiv.style.padding = "10px";
   
-  const instructionText = document.createElement("h5");
-  instructionText.innerText = "Select observation(s) to visualize";
-  controlsDiv.appendChild(instructionText);
-
   const uniqueHeaders = new Set(tables.flatMap(table => table[0]));
   uniqueHeaders.forEach(header => {
     if (header === "Patient ID") {
       return;
     }
-  
+    
+    const columnDiv = document.createElement("div");
+    columnDiv.className = "col-auto";
+    
     const formCheckDiv = document.createElement("div");
     formCheckDiv.className = "form-check";
-
+    
     const checkbox = document.createElement("input");
     checkbox.type = "checkbox";
     checkbox.className = "form-check-input";
     checkbox.checked = true;
     checkbox.onchange = () => renderData();
+    // Update the label text based on the header
     checkbox.id = header === "Age" || header === "Sex" 
                   ? `Patient${header.replace(/\s+/g, '')}Checkbox` 
                   : `${header.replace(/\s+/g, '')}Checkbox`;
     checkbox.setAttribute("data-header", header);
-
+    
     const label = document.createElement("label");
     label.className = "form-check-label";
-    // Update the label text based on the header
     label.setAttribute("for", checkbox.id);
     label.innerText = header === "Age" ? "Patient age" : 
                       header === "Sex" ? "Patient sex" : header;
-
+    
     formCheckDiv.appendChild(checkbox);
     formCheckDiv.appendChild(label);
-    controlsDiv.appendChild(formCheckDiv);
-    lastFormCheckDiv = formCheckDiv;
+    columnDiv.appendChild(formCheckDiv);
+    controlsDiv.appendChild(columnDiv);
   });
-  if (lastFormCheckDiv) {
-    lastFormCheckDiv.style.paddingBottom = '40px'; // Add padding to the last checkbox
-  }
-
   outputDiv.appendChild(controlsDiv);
 
   // Step 2: Uncheck boxes that show 100% bars
