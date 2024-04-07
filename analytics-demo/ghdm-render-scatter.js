@@ -31,6 +31,10 @@ function renderScatterPlots(cohortLabels, tables, outputDivId) {
   const outputDiv = document.getElementById(outputDivId);
   outputDiv.innerHTML = "";
 
+  const borderContainer = document.createElement("div");
+  borderContainer.className = "col-12 d-flex justify-content-start align-items-end p-2 border rounded justify-content-start gap-3 mb-3 my-2 mx-2";
+  outputDiv.appendChild(borderContainer);
+
   // Prepare x-axis and y-axis select elements
   const xAxisSelect = document.createElement("select");
   const yAxisSelect = document.createElement("select");
@@ -72,12 +76,26 @@ function renderScatterPlots(cohortLabels, tables, outputDivId) {
   });
   
   // Append select elements for x-axis and y-axis to the output div
-  outputDiv.appendChild(document.createTextNode("Select x axis"));
-  outputDiv.appendChild(xAxisSelect);
-  outputDiv.appendChild(document.createElement("br"));
-  outputDiv.appendChild(document.createTextNode("Select y axis"));
-  outputDiv.appendChild(yAxisSelect);
-  outputDiv.appendChild(document.createElement("br"));
+  const xAxisContainer = document.createElement("div");
+  xAxisContainer.className = "d-flex align-items-center";
+  borderContainer.appendChild(xAxisContainer);  // Append to the border container
+  const xLabel = document.createElement("label");
+  xLabel.textContent = "X";
+  xLabel.setAttribute("for", "xAxisSelect");
+  xLabel.classList.add("me-2");
+  xAxisContainer.appendChild(xLabel);
+  xAxisContainer.appendChild(xAxisSelect);
+
+  const yAxisContainer = document.createElement("div");
+  yAxisContainer.className = "d-flex align-items-center"; 
+  borderContainer.appendChild(yAxisContainer);  // Append to the border container
+  const yLabel = document.createElement("label");
+  yLabel.textContent = "Y";
+  yLabel.setAttribute("for", "yAxisSelect");
+  yLabel.classList.add("me-2");
+  yAxisContainer.appendChild(yLabel);
+  yAxisContainer.appendChild(yAxisSelect);
+
 
   // Print headers for each table
   tables.forEach((table, i) => {
