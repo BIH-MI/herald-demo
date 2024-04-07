@@ -8,7 +8,9 @@ This repository, "herald-demo," houses the code for a live demonstration accessi
 
 ## Exploring the demo
 
-Simply download the repository and open the `index.html` file locally in your browser. The web page will guide you through the live demo, showcasing HERALD's application on three distinct synthetic example datasets.
+Access the live demonstration at [herald-lang.org](http://herald-lang.org). The web page will guide you through the live demo, showcasing HERALD's application on three distinct synthetic example datasets.
+
+To deploy it locally, simply download the repository and open the `index.html` file in your browser. 
 
 ## Features
 
