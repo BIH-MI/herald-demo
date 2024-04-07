@@ -208,9 +208,19 @@ async function renderTimeToEvent(cohortLabels, tables, outputDivId) {
 	// If no data, break
 	const labels = GHDM.getUniqueConceptLabels(tables);
 	if (labels.length <= 1) {
-		outputDiv.appendChild(createNoDataAlert());
+		outputDiv.appendChild(GHDMUI.createNoDataAlert());
 		return; 
 	}
+
+	const borderContainer = document.createElement("div");
+  	borderContainer.className = "col-12 d-flex justify-content-center align-items-center p-2 border rounded gap-3 mb-3 my-2 mx-2";
+  	outputDiv.appendChild(borderContainer);
+
+	const textLabel = document.createElement("label");
+	textLabel.textContent = "Index event";
+	textLabel.className = "me-2";
+	textLabel.style.whiteSpace = "nowrap";
+	borderContainer.appendChild(textLabel);
 
 	// Create select element for index event
 	const indexEventSelect = document.createElement("select");
@@ -239,11 +249,9 @@ async function renderTimeToEvent(cohortLabels, tables, outputDivId) {
 		}
 	}
 
-	// Append select element for index event to the output div
-	outputDiv.appendChild(document.createTextNode("Select index event"));
-	outputDiv.appendChild(indexEventSelect);
-	outputDiv.appendChild(document.createElement("br"));
-
+	// Append select element for index event to the border container	
+	borderContainer.appendChild(indexEventSelect);
+	
 	// Attach event listener to the select box
 	indexEventSelect.addEventListener('change', function() {
 		const selectedEvent = indexEventSelect.value;
@@ -265,7 +273,7 @@ async function renderTimeToEvent(cohortLabels, tables, outputDivId) {
 			if (existingVisualization) {
 				outputDiv.removeChild(existingVisualization);
 			}
-			outputDiv.appendChild(createNoDataAlert());
+			outputDiv.appendChild(GHDMUI.createNoDataAlert());
 		}
 	});
 
