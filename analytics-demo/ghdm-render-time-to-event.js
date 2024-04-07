@@ -63,6 +63,9 @@ function visualizeKaplanMeierCurves(cohortLabels, tables, indexEventColumnName, 
 	// Index of index event
 	const indexEventColumn = tables[0][0].indexOf(indexEventColumnName);
 
+	// Keep track whether anything was plotted
+	let plotted = false;
+
 	// For each such column
 	outcomeEventColumns.forEach((outcomeEventColumn) => {
 
@@ -71,6 +74,7 @@ function visualizeKaplanMeierCurves(cohortLabels, tables, indexEventColumnName, 
 
 		//Log if column has data to display (i.e. positive time differences exist that can be visualized)
 		let hasPositiveTimeDifference = false;
+	
 		// Process each cohort
 		for (let i = 0; i < cohortLabels.length; i++) {
 			let cohortSeries = calculateTimeToEvent(tables[i], indexEventColumn, outcomeEventColumn, false);
@@ -78,7 +82,7 @@ function visualizeKaplanMeierCurves(cohortLabels, tables, indexEventColumnName, 
 				hasPositiveTimeDifference = true;
 			}
 		}
-	
+
 		// Only plot if positive time differences are found
 		if(hasPositiveTimeDifference){
 			// Create a separate div
@@ -192,8 +196,13 @@ function visualizeKaplanMeierCurves(cohortLabels, tables, indexEventColumnName, 
 
 			// Create plot
 			Plotly.newPlot(plotDiv, traces, layout, config);
+			//Track if a plot was created
+			plotted = true;
 		}
 	});
+	if (!plotted) {
+		document.getElementById(outputDivId).appendChild(GHDMUI.createNoDataAlert());
+	}
 }
 
 /**
