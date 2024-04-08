@@ -9,7 +9,6 @@
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 </head>
 
-
 <body>
     <!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light sticky-top">
@@ -29,23 +28,23 @@
             <p class="mb-0" style="text-align: justify; hyphens: auto; color: #333; line-height: 1.6;">
                 <strong>HERALD (Human-centric Extraction for Research and Analysis of Longitudinal Data)</strong> 
                 is a query language designed to empower medical researchers by providing them with self-service 
-                access to longitudinal health data analytics. This prototype graphical query editor, combined with 
-                analytics functionalities, showcases the capabilities of the HERALD query language. Below you'll 
+                access to longitudinal health data analytics. HERALD facilitates the extraction and aggregation of 
+                lonigtudinal data into cross-sectional tables for statistical analyses. This prototype consists of 
+                a HERALD excecution engine, combined with a graphical query editor, and paired with analytics 
+                functionalities to showcase the capabilities of the HERALD query language. Below you'll 
                 find three different examples deployed within a web demo.
             </p>
         </div>
     </div>
 
-
-    <div class="container mt-1">
-    
+    <div class="container mt-1">   
         <section id="use-cases" class="mt-2">
             <div class="row mt-2">
                 <!-- Use Case 1 -->
                 <div class="col-md-4 mb-3 mb-md-0">
                     <div class="card h-100 shadow-lg">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Coronary Heart Disease vs. Diabetes</h5>
+                            <h5 class="card-title">Example 1: Coronary Heart Disease vs. Diabetes</h5>
                             <p class="card-text" style="text-align: justify; hyphens: auto;">Explore a comparative analysis between two cohorts of patients 
                                 with a primary diagnosis of either coronary heart disease or type 2 diabetes. 
                                 The dataset allows the study of demographic variables (age, sex) and common 
@@ -58,7 +57,7 @@
                 <div class="col-md-4 mb-3 mb-md-0">
                     <div class="card h-100 shadow-lg">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Alzheimer's Disease</h5>
+                            <h5 class="card-title">Example 2: Alzheimer's Disease</h5>
                             <p class="card-text" style="text-align: justify; hyphens: auto;">Investigate Alzheimer's disease by comparing early-onset patients 
                                 with those diagnosed at a later stage. The dataset provided includes basic demographic information (age, sex), 
                                 Mini-Mental State Examination (MMSE) scores to assess cognitive function, pneumonia incidence, 
@@ -71,7 +70,7 @@
                 <div class="col-md-4 mb-3 mb-md-0">
                     <div class="card h-100 shadow-lg">
                         <div class="card-body d-flex flex-column">
-                            <h5 class="card-title">Lung Cancer</h5>
+                            <h5 class="card-title">Example 3: Lung Cancer</h5>
                             <p class="card-text" style="text-align: justify; hyphens: auto;">Contrast patient cohorts diagnosed with non-small cell carcinoma of 
                                 the lung of TNM stages 1 to 4, who have received combined chemotherapy and radiation therapy. Additional information on 
                                 basic demographics (age, sex), BMI, related medication and selected lab values (Hemoglobin, Glucose and eGFR) is provided.</p>
@@ -82,6 +81,24 @@
             </div>
         </section>
     </div>
+
+    <div class="container my-4">
+        <div class="p-4 shadow" style="background-color: #f8f9fa; font-size: 1rem;">
+            <h5 class="mb-3"><strong>Explore our Code on GitHub</strong></h5>
+            <div class="d-flex align-items-center mb-2">
+                <a href="https://github.com/BIH-MI/herald-lang" class="btn btn-primary me-3" target="_blank" style="width: 200px;">HERALD Lang</a>
+                <div>
+                    Explore the core infrastructure of HERALD, including its intuitive query language design, execution engine, and graphical query editor.
+                </div>
+            </div>
+            <div class="d-flex align-items-center">
+                <a href="https://github.com/BIH-MI/herald-demo" class="btn btn-primary me-3" target="_blank" style="width: 200px;">HERALD Demo</a>
+                <div>
+                    Discover HERALD in action with a live demo that showcases its practical application on health data.
+            </div>
+        </div>
+    </div>
+    
 
     <!-- Footer -->
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top bg-light">
