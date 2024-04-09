@@ -31,10 +31,10 @@ function ghdmLoadScripts(callback) {
 					'js/herald-logic.js',
 					'js/herald-ui.js',
 					
-					'analytics-demo/ghdm-render-description.js',
-					'analytics-demo/ghdm-render-quality.js',
-					'analytics-demo/ghdm-render-scatter.js',
-					'analytics-demo/ghdm-render-time-to-event.js'
+					'js/ghdm-render-description.js',
+					'js/ghdm-render-quality.js',
+					'js/ghdm-render-scatter.js',
+					'js/ghdm-render-time-to-event.js'
 				], callback);
 }
 
