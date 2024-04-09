@@ -44,14 +44,14 @@ function calculateTimeToEvent(table, indexEventColumn, outcomeEventColumn) {
 }
 
 /**
- * Visualizes Kaplan Meier Curves
+ * Visualize Kaplan Meier Curves
  */
 function visualizeKaplanMeierCurves(cohortLabels, tables, indexEventColumnName, outputDivId) {
 	
 	// List of colors
 	const colors = ['blue', 'orange', 'green', 'red', 'purple', 'brown', 'pink', 'gray', 'cyan', 'magenta'];
 
-	// Finde indices of all columns that are not id, age, sex or index
+	// Find indices of all columns that are not id, age, sex or index
 	const outcomeEventColumns = [];
 	for (let i =0; i < tables[0][0].length; i++) {
 		let columnName = tables[0][0][i];

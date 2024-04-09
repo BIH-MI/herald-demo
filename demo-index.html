@@ -27,7 +27,7 @@
       document.head.appendChild(script);
     }
   
-     // define test data set to be loaded based on selected application use case in home.html
+     // Define test data set to be loaded based on selected application use case in home.html
     function getQueryVariable(variable) {
       var query = window.location.search.substring(1);
       var vars = query.split('&');
@@ -113,10 +113,9 @@
                   () => ghdmLoadStyles(
                       () => ghdmLoadContent(
                           () => ghdmLoadScripts(
-                              //() => pluginMain(parseJSONDataTypes(jsonData));
                               () => {
                                 pluginMain(GHDM.parseJSONDataTypes(jsonData));
-                                // inject predined queries
+                                // Inject predined queries
                                 predifinedQueries.forEach(queryTuple => {
                                   HeraldUI.setLabelAndQueryManually(queryTuple[0], queryTuple[1]);
                                 });
@@ -138,7 +137,7 @@
 <style>
   @media only screen and (max-width: 768px) {
     body {
-      min-width: 1024px; /* You can adjust this value based on your design */
+      min-width: 1024px;
     }
   }
 </style>

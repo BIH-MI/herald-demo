@@ -49,7 +49,7 @@ function renderScatterPlots(cohortLabels, tables, outputDivId) {
   indices.forEach((index) => {
     const xOption = document.createElement("option");
     const yOption = document.createElement("option");  
-    // only include numeric options in dropdown
+    // Only include numeric options in dropdown
     let optionIsNumeric = false;
     tables.forEach(table => {
       for (let i = 1; i < table.length; i++) {
@@ -78,7 +78,7 @@ function renderScatterPlots(cohortLabels, tables, outputDivId) {
   // Append select elements for x-axis and y-axis to the output div
   const xAxisContainer = document.createElement("div");
   xAxisContainer.className = "d-flex align-items-center";
-  borderContainer.appendChild(xAxisContainer);  // Append to the border container
+  borderContainer.appendChild(xAxisContainer);
   const xLabel = document.createElement("label");
   xLabel.textContent = "X";
   xLabel.setAttribute("for", "xAxisSelect");
@@ -88,7 +88,7 @@ function renderScatterPlots(cohortLabels, tables, outputDivId) {
 
   const yAxisContainer = document.createElement("div");
   yAxisContainer.className = "d-flex align-items-center"; 
-  borderContainer.appendChild(yAxisContainer);  // Append to the border container
+  borderContainer.appendChild(yAxisContainer);
   const yLabel = document.createElement("label");
   yLabel.textContent = "Y";
   yLabel.setAttribute("for", "yAxisSelect");
@@ -161,19 +161,19 @@ function calculatePlotData(xIndex, yIndex, table) {
 	  }
 
 
-    /**
-     * Update all plots
-     * @param {*} tables 
-     * @param {*} cohortLabels 
-     * @param {*} plotHeight 
-     * @param {*} xIndex 
-     * @param {*} yIndex 
-     */
+/**
+ * Update all plots
+ * @param {*} tables 
+ * @param {*} cohortLabels 
+ * @param {*} plotHeight 
+ * @param {*} xIndex 
+ * @param {*} yIndex 
+ */
 function updateAllPlots(tables, cohortLabels, plotHeight, xIndex, yIndex) {
 	  const cohortHasData = hasDataForCombination(tables, xIndex, yIndex);
 	  tables.forEach((table, i) => {
 	    const plotContainer = document.getElementById(`scatter-plot-container-${cohortLabels[i]}`);
-	    plotContainer.innerHTML = ""; // Clear previous plot or No data div
+	    plotContainer.innerHTML = "";
 
 	    if (cohortHasData[i]) {
 	      const xConcept = table[0][xIndex];
@@ -261,7 +261,7 @@ function createScatterPlotLayout(xConcept, yConcept, plotHeight) {
       title: yConcept,
     },
     height: plotHeight,
-    showlegend: false, // Disable the legend
+    showlegend: false,
   };
 }
 

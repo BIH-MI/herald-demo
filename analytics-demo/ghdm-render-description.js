@@ -185,9 +185,9 @@ function renderAgeDistribution(rows, header, cohortDiv) {
         color: 'steelblue',
       },
       xbins: {
-        start: 0,  // Assuming ages start at 0, adjust as needed
-        end: 120,  // Assuming ages go up to 120, adjust as needed
-        size: 5  // This sets the bin width
+        start: 0,  // Ages starting at 0
+        end: 120,  // Ages going up to 120
+        size: 5  // Bin width
       },
     },
   ];
@@ -301,7 +301,7 @@ function renderObservations(rows, header, cohortDiv, selectedHeaders) {
   columnData.forEach(({header, numericValues, nonNumericValues}) => {
     const dataDiv = document.getElementById(cohortDiv);
     
-    // Always prefer numeric data, if there is one, and do non-numeric only if no numeric data exists
+    // Plot numeric data if there is at least one numeric observation, else plot nonNumeric
     if (numericValues.length > 0) {
       const numericData = {
         type: 'violin',
@@ -311,8 +311,8 @@ function renderObservations(rows, header, cohortDiv, selectedHeaders) {
         jitter: 0.3,
         pointpos: -1.8,
         line: { color: 'steelblue' },
-        legendgroup: 'hidden', // Add this line to assign a legend group
-        showlegend: false // Add this line to hide the legend
+        legendgroup: 'hidden',
+        showlegend: false
       };
 
       const layout = {
@@ -356,7 +356,6 @@ function renderObservations(rows, header, cohortDiv, selectedHeaders) {
         dataDiv.appendChild(createNoDataDiv());
       }
     } else {
-      // Handle the case where there is no data to display for this header
       dataDiv.appendChild(createNoDataDiv());
     }
   });
@@ -365,7 +364,7 @@ function renderObservations(rows, header, cohortDiv, selectedHeaders) {
 
 /**
  * 
- * No data div
+ * Create a no data div
  */
 function createNoDataDiv() {
   const noDataDiv = document.createElement('div');

@@ -8,15 +8,9 @@ This repository houses the code for a live demonstration accessible at [herald-l
 
 ## Exploring the demo
 
-Access the live demonstration at [herald-lang.org](http://herald-lang.org). The web page will guide you through the live demo, showcasing HERALD's application on three distinct synthetic example datasets.
+Access the live demonstration at [herald-lang.org](http://herald-lang.org). The web page will guide you through the live demo, showcasing HERALD's application on three distinct example datasets, that are based on subsets of the synthetically generated patient records from the [Synthea SyntheticMass dataset](https://synthea.mitre.org/downloads).
 
 To deploy it locally, simply download the repository and open the `index.html` file in your browser. 
-
-## Features
-
-- **Ease of Use**: Designed with a focus on simplicity and user-friendliness.
-- **Browser-based Interface**: Engage directly with HERALD without the need for complex installations or configurations.
-- **Interactive Demo**: Experience HERALD's functionality within an interactive UI for three health data examples.
 
 ## Contact
 
@@ -33,14 +27,10 @@ You can also find us at our working group's website [mi.bihealth.org](https://mi
 
 ## License
 
-&copy; 2024 Berlin Institute of Health
+&copy; 2023-2024 Berlin Institute of Health
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at
 
 http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.
-
-## External Libraries
-
-HERALD uses external libraries. Their licenses are listed in the respective folders.
