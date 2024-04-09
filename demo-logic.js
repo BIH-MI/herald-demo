@@ -26,10 +26,10 @@ function ghdmLoadScripts(callback) {
 					'libs/nearley.min.js',
 
 					// Internal (Do not change the order!)
-					'src/ghdm.js',
-					'src/ghdm-ui.js',
-					'src/herald-logic.js',
-					'src/herald-ui.js',
+					'js/ghdm.js',
+					'js/ghdm-ui.js',
+					'js/herald-logic.js',
+					'js/herald-ui.js',
 					
 					'analytics-demo/ghdm-render-description.js',
 					'analytics-demo/ghdm-render-quality.js',
@@ -48,8 +48,8 @@ function ghdmLoadStyles(callback) {
 				'libs/query-builder.default.min.css',
 				'libs/flatpickr.min.css',
 				// Internal
-				'src/ghdm-ui.css',
-				'src/herald-ui.css'
+				'js/ghdm-ui.css',
+				'js/herald-ui.css'
 				], callback);
 }
 
