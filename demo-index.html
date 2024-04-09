@@ -37,18 +37,18 @@
           return decodeURIComponent(pair[1]);
         }
       }
-      console.log('Query variable %s not found', variable);
     }
 
     let caseKey = getQueryVariable("usecase");
     let dataUrl;
     let jsonData;
-    let predifinedQueries;  // Array of tuples [labelText, queryText]
+    let predefinedQueries = [];
 
     switch (caseKey) {
+      default:
       case "case1":
         dataUrl = 'data/cohort-comparison-chd-t2d.json';
-        predifinedQueries = [
+        predefinedQueries = [
           ['FirstDiag', 'FIRST (LABEL = "*Diabetes*" OR LABEL = "*Coronary Heart Disease*") AFTER (1980-01-01)'],
           ['Comorbidities', 'EXISTS (LABEL = "*Diabetes*") AND EXISTS (LABEL = "*Coronary Heart Disease*")'],
           ['BodyMassIndex', 'AVERAGE (LABEL = "*Body Mass Index*" AND UNIT = "*kg/m2*") CLOSE TO ("FirstDiag") BY 6 MONTHS'],
@@ -59,7 +59,7 @@
         break;
       case "case2":
         dataUrl = 'data/cohort-comparison-alzheimers.json';
-        predifinedQueries = [
+        predefinedQueries = [
           [`Alzheimer'sDiagnosis`, `FIRST (LABEL = "*Alzheimer's disease (disorder)*" OR LABEL = "*Familial Alzheimer's disease of early onset (disorder)*")`],
           ['PneunomiaDiagnosis', 'FIRST (LABEL = "*Pneumonia*")'],
           ['FirstScoreMMSE', 'FIRST (LABEL = "*Total score MMSE*")'],
@@ -72,7 +72,7 @@
         break;
       case "case3":
         dataUrl = 'data/cohort-comparison-lung-cancer.json';
-        predifinedQueries = [
+        predefinedQueries = [
           ['FirstCancerDiagnosis', 'FIRST (LABEL = "*Diagnosis*")'],
           ['FirstChemoRadio', 'FIRST (LABEL = "*Combined chemotherapy and radiation therapy (procedure)*")'],
           ['LastChemoRadio', 'LAST (LABEL = "*Combined chemotherapy and radiation therapy (procedure)*")'],
@@ -84,8 +84,6 @@
           ['GlucoseLastChemo', 'ANY (LABEL = "*Glucose*") BEFORE ("LastChemoRadio") BY 1 WEEK']
         ];
         break;
-      default:
-        dataUrl = 'data/cohort-comparison-chd-t2d.json';
     }
 
     // If inside of iFrame
@@ -116,7 +114,7 @@
                               () => {
                                 pluginMain(GHDM.parseJSONDataTypes(jsonData));
                                 // Inject predined queries
-                                predifinedQueries.forEach(queryTuple => {
+                                predefinedQueries.forEach(queryTuple => {
                                   HeraldUI.setLabelAndQueryManually(queryTuple[0], queryTuple[1]);
                                 });
                               }
