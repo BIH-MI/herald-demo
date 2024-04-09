@@ -47,7 +47,7 @@
 
     switch (caseKey) {
       case "case1":
-        dataUrl = 'test-data/cohort-comparison-chd-t2d.json';
+        dataUrl = 'data/cohort-comparison-chd-t2d.json';
         predifinedQueries = [
           ['FirstDiag', 'FIRST (LABEL = "*Diabetes*" OR LABEL = "*Coronary Heart Disease*") AFTER (1980-01-01)'],
           ['Comorbidities', 'EXISTS (LABEL = "*Diabetes*") AND EXISTS (LABEL = "*Coronary Heart Disease*")'],
@@ -58,7 +58,7 @@
         ];
         break;
       case "case2":
-        dataUrl = 'test-data/cohort-comparison-alzheimers.json';
+        dataUrl = 'data/cohort-comparison-alzheimers.json';
         predifinedQueries = [
           [`Alzheimer'sDiagnosis`, `FIRST (LABEL = "*Alzheimer's disease (disorder)*" OR LABEL = "*Familial Alzheimer's disease of early onset (disorder)*")`],
           ['PneunomiaDiagnosis', 'FIRST (LABEL = "*Pneumonia*")'],
@@ -71,7 +71,7 @@
         ];
         break;
       case "case3":
-        dataUrl = 'test-data/cohort-comparison-lung-cancer.json';
+        dataUrl = 'data/cohort-comparison-lung-cancer.json';
         predifinedQueries = [
           ['FirstCancerDiagnosis', 'FIRST (LABEL = "*Diagnosis*")'],
           ['FirstChemoRadio', 'FIRST (LABEL = "*Combined chemotherapy and radiation therapy (procedure)*")'],
@@ -85,7 +85,7 @@
         ];
         break;
       default:
-        dataUrl = 'test-data/cohort-comparison-chd-t2d.json';
+        dataUrl = 'data/cohort-comparison-chd-t2d.json';
     }
 
     // If inside of iFrame
