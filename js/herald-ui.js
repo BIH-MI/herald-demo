@@ -233,13 +233,11 @@ function initializeFieldSelectionTree(cohorts) {
 
     // Call function
     cohorts.forEach(cohort => {
-        //if (selectedCohorts === null || selectedCohorts.includes(cohort.label)) {
         cohort.patients.forEach(patient => {
             for (concept of patient.concepts) {
                 traverse(treeContainer, concept, '');
             }
         });
-        //}
     });
 
 
@@ -363,7 +361,7 @@ function addListenerAutocomplete() {
 			// Open modal
 			const {value, field} = await HeraldUI.openFieldSelectionModal();
 
-			// if value set
+			// If value set
 			if (value && field) {
 				// Text to set
 				let text = field + ' = "' + value.replace(/"/g, '\\"') + '"';
@@ -1511,7 +1509,7 @@ async function showHeraldQueryModal(name, query) {
         // Open modal
         const {value, field} = await HeraldUI.openFieldSelectionModal();
   
-        // if value set
+        // If value set
         if (value && field) {
           // Get the current cursor position
           const startPos = event.target.selectionStart;

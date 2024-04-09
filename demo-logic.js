@@ -28,7 +28,7 @@ function ghdmLoadScripts(callback) {
 					// Internal (Do not change the order!)
 					'js/ghdm.js',
 					'js/ghdm-ui.js',
-					'js/herald-logic.js',
+					'js/herald-core.js',
 					'js/herald-ui.js',
 					
 					'js/ghdm-render-description.js',

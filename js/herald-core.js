@@ -220,17 +220,6 @@ window.Herald = Herald;
         ParserStart: "query"
     }
 
-
-/*
-if (typeof module !== 'undefined'&& typeof module.exports !== 'undefined') {
-   module.exports = grammar;
-} else {
-   window.grammar = grammar;
-}
-*/
-
-// })();
-
 /**
  * Namespace object and export
  */
@@ -1020,6 +1009,6 @@ window.Herald = Herald;
 
 })();
 
-window["herald-logic"] = __webpack_exports__;
+window["herald-core"] = __webpack_exports__;
 /******/ })()
 ;
