@@ -123,8 +123,14 @@ function renderScatterPlots(cohortLabels, tables, outputDivId) {
   yAxisSelect.addEventListener("change", updatePlots);
 
   // Initialize the plot with the first index for x and the second for y (if possible)
-  xAxisSelect.value = indices[0];
-  yAxisSelect.value = indices.length > 1 ? indices[1] : indices[0];
+  if (xAxisSelect.options.length > 0) {
+    xAxisSelect.selectedIndex = 0; // First numeric option
+  }
+  if (yAxisSelect.options.length > 1) {
+    yAxisSelect.selectedIndex = 1; // Second numeric option
+  } else if (yAxisSelect.options.length === 1) {
+    yAxisSelect.selectedIndex = 0; // If only one numeric option available, set it to y as well
+  }
 
   updatePlots(); // Initial plot rendering
 }
