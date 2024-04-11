@@ -48,8 +48,8 @@ function ghdmLoadStyles(callback) {
 				'libs/query-builder.default.min.css',
 				'libs/flatpickr.min.css',
 				// Internal
-				'js/ghdm-ui.css',
-				'js/herald-ui.css'
+				'css/ghdm-ui.css',
+				'css/herald-ui.css'
 				], callback);
 }
 
