@@ -26,7 +26,7 @@ function ghdmLoadScripts(callback) {
 					'libs/nearley.min.js',
 
 					// Internal (Do not change the order!)
-					'js/ghdm.js',
+					'js/ghdm-data.js',
 					'js/ghdm-ui.js',
 					'js/herald-core.js',
 					'js/herald-ui.js',

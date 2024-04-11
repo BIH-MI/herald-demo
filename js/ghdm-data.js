@@ -525,6 +525,6 @@ window.GHDM = GHDM;
 
 })();
 
-window.ghdm = __webpack_exports__;
+window["ghdm-data"] = __webpack_exports__;
 /******/ })()
 ;
