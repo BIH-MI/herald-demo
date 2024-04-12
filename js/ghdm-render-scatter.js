@@ -31,10 +31,6 @@ function renderScatterPlots(cohortLabels, tables, outputDivId) {
   const outputDiv = document.getElementById(outputDivId);
   outputDiv.innerHTML = "";
 
-  const borderContainer = document.createElement("div");
-  borderContainer.className = "col-12 d-flex justify-content-start align-items-end p-2 border rounded justify-content-start gap-3 mb-3 my-2 mx-2";
-  outputDiv.appendChild(borderContainer);
-
   // Prepare x-axis and y-axis select elements
   const xAxisSelect = document.createElement("select");
   const yAxisSelect = document.createElement("select");
@@ -75,64 +71,74 @@ function renderScatterPlots(cohortLabels, tables, outputDivId) {
     }
   });
   
-  // Append select elements for x-axis and y-axis to the output div
-  const xAxisContainer = document.createElement("div");
-  xAxisContainer.className = "d-flex align-items-center";
-  borderContainer.appendChild(xAxisContainer);
-  const xLabel = document.createElement("label");
-  xLabel.textContent = "X";
-  xLabel.setAttribute("for", "xAxisSelect");
-  xLabel.classList.add("me-2");
-  xAxisContainer.appendChild(xLabel);
-  xAxisContainer.appendChild(xAxisSelect);
+  // Only plot if at least one numeric option is available
+  if (Object.keys(dropdownToDataIndexMap).length > 0){
 
-  const yAxisContainer = document.createElement("div");
-  yAxisContainer.className = "d-flex align-items-center"; 
-  borderContainer.appendChild(yAxisContainer);
-  const yLabel = document.createElement("label");
-  yLabel.textContent = "Y";
-  yLabel.setAttribute("for", "yAxisSelect");
-  yLabel.classList.add("me-2");
-  yAxisContainer.appendChild(yLabel);
-  yAxisContainer.appendChild(yAxisSelect);
+    const borderContainer = document.createElement("div");
+    borderContainer.className = "col-12 d-flex justify-content-start align-items-end p-2 border rounded justify-content-start gap-3 mb-3 my-2 mx-2";
+    outputDiv.appendChild(borderContainer);
+
+    // Append select elements for x-axis and y-axis to the output div
+    const xAxisContainer = document.createElement("div");
+    xAxisContainer.className = "d-flex align-items-center";
+    borderContainer.appendChild(xAxisContainer);
+    const xLabel = document.createElement("label");
+    xLabel.textContent = "X";
+    xLabel.setAttribute("for", "xAxisSelect");
+    xLabel.classList.add("me-2");
+    xAxisContainer.appendChild(xLabel);
+    xAxisContainer.appendChild(xAxisSelect);
+
+    const yAxisContainer = document.createElement("div");
+    yAxisContainer.className = "d-flex align-items-center"; 
+    borderContainer.appendChild(yAxisContainer);
+    const yLabel = document.createElement("label");
+    yLabel.textContent = "Y";
+    yLabel.setAttribute("for", "yAxisSelect");
+    yLabel.classList.add("me-2");
+    yAxisContainer.appendChild(yLabel);
+    yAxisContainer.appendChild(yAxisSelect);
 
 
-  // Print headers for each table
-  tables.forEach((table, i) => {
-    const label = document.createElement("h3");
-    label.textContent = `Scatter plots for ${cohortLabels[i]}`;
-    outputDiv.appendChild(label);
+    // Print headers for each table
+    tables.forEach((table, i) => {
+      const label = document.createElement("h3");
+      label.textContent = `Scatter plots for ${cohortLabels[i]}`;
+      outputDiv.appendChild(label);
 
-    const plotContainer = document.createElement("div");
-    plotContainer.id = `scatter-plot-container-${cohortLabels[i]}`;
-    outputDiv.appendChild(plotContainer);
-  });
+      const plotContainer = document.createElement("div");
+      plotContainer.id = `scatter-plot-container-${cohortLabels[i]}`;
+      outputDiv.appendChild(plotContainer);
+    });
 
-  // Default plot height
-  const plotHeight = 500;
+    // Default plot height
+    const plotHeight = 500;
 
-  // Function to update all plots based on selected indices
-  const updatePlots = () => {
-    const xIndex = dropdownToDataIndexMap[parseInt(xAxisSelect.value, 10)];
-    const yIndex = dropdownToDataIndexMap[parseInt(yAxisSelect.value, 10)];
-    updateAllPlots(tables, cohortLabels, plotHeight, xIndex, yIndex);
-  };
+    // Function to update all plots based on selected indices
+    const updatePlots = () => {
+      const xIndex = dropdownToDataIndexMap[parseInt(xAxisSelect.value, 10)];
+      const yIndex = dropdownToDataIndexMap[parseInt(yAxisSelect.value, 10)];
+      updateAllPlots(tables, cohortLabels, plotHeight, xIndex, yIndex);
+    };
 
-  // Attach event listeners to select elements
-  xAxisSelect.addEventListener("change", updatePlots);
-  yAxisSelect.addEventListener("change", updatePlots);
+    // Attach event listeners to select elements
+    xAxisSelect.addEventListener("change", updatePlots);
+    yAxisSelect.addEventListener("change", updatePlots);
 
-  // Initialize the plot with the first index for x and the second for y (if possible)
-  if (xAxisSelect.options.length > 0) {
-    xAxisSelect.selectedIndex = 0; // First numeric option
+    // Initialize the plot with the first index for x and the second for y (if possible)
+    if (xAxisSelect.options.length > 0) {
+      xAxisSelect.selectedIndex = 0; // First numeric option
+    }
+    if (yAxisSelect.options.length > 1) {
+      yAxisSelect.selectedIndex = 1; // Second numeric option
+    } else if (yAxisSelect.options.length === 1) {
+      yAxisSelect.selectedIndex = 0; // If only one numeric option available, set it to y as well
+    }
+
+    updatePlots(); // Initial plot rendering
+  } else {
+    outputDiv.appendChild(GHDMUI.createNoDataAlert());
   }
-  if (yAxisSelect.options.length > 1) {
-    yAxisSelect.selectedIndex = 1; // Second numeric option
-  } else if (yAxisSelect.options.length === 1) {
-    yAxisSelect.selectedIndex = 0; // If only one numeric option available, set it to y as well
-  }
-
-  updatePlots(); // Initial plot rendering
 }
 
 
