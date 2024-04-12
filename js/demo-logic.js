@@ -34,7 +34,8 @@ function ghdmLoadScripts(callback) {
 					'js/ghdm-render-description.js',
 					'js/ghdm-render-quality.js',
 					'js/ghdm-render-scatter.js',
-					'js/ghdm-render-time-to-event.js'
+					'js/ghdm-render-time-to-event.js',
+					'js/ghdm-render-tables.js'
 				], callback);
 }
 
@@ -139,6 +140,8 @@ function pluginVisualize(cohorts) {
 		  renderQualityReport(selectedCohorts, tables, "output");
 		} else if (selectedVisualization === "scatter") {
 		  renderScatterPlots(selectedCohorts, tables, "output");
+		} else if (selectedVisualization === "table") {
+			renderTables(selectedCohorts, tables, "output");
 		}
 
 	});
