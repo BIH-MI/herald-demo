@@ -50,6 +50,8 @@ function analyzeTables(tables) {
       let nonEmptyCount = 0;
       let uniqueCount = 0;
       const uniqueValues = new Set();
+      const uniqueUnits = new Set ();
+      const uniqueDataTypes = new Set ();
 
       // Go through rows
       for (let i = 1; i < table.length; i++) {
@@ -57,12 +59,27 @@ function analyzeTables(tables) {
         // Skip the PatientID, Age, and Sex columns if present
         const value = table[i][colIndex + skipColumns];
         if (value && value.value) {
+          // Check for uniquness in values
           nonEmptyCount++;
 
           if (!uniqueValues.has(JSON.stringify(value))) {
             uniqueValues.add(JSON.stringify(value));
             uniqueCount++;
           }
+        }
+        // Check for data types
+        if (value && !value.isNumeric) {
+          uniqueDataTypes.add("Categorical");
+        } else if (value && value.isNumeric) {
+          if (Number.isInteger(parseFloat(value.value))) {
+            uniqueDataTypes.add("Integer");
+          } else {
+            uniqueDataTypes.add("Decinmal");
+          }
+        }
+        // Check for units
+        if (value && value.unit) {
+          uniqueUnits.add(value.unit);
         }
       }
 
@@ -71,6 +88,10 @@ function analyzeTables(tables) {
       const uniqueness = nonEmptyCount === 0 ? 0 : (uniqueCount / nonEmptyCount) * 100;
       const columnMissingValues = numRows - nonEmptyCount;
       missingValues += columnMissingValues;
+      const unitResult = uniqueUnits.size === 1 ? Array.from(uniqueUnits)[0] :
+                 uniqueUnits.size > 1 ? "Mixed" : "Unknown";
+      const dataTypeResult = uniqueDataTypes.size === 1 ? Array.from(uniqueDataTypes)[0] :
+                 uniqueDataTypes.has("Categorical") ? "Mixed" : "Decimal"
 
       // Store
       indicators[colIndex] = {
@@ -78,6 +99,8 @@ function analyzeTables(tables) {
         completeness: completeness.toFixed(2),
         missingValues: ((columnMissingValues / numRows) * 100).toFixed(2),
         uniqueness: uniqueness.toFixed(2),
+        dataType: dataTypeResult,
+        unit: unitResult
       };
     });
 
@@ -127,7 +150,7 @@ function renderQualityReport(cohortLabels, tables, outputDivId) {
     indicatorsTable.classList.add("table", "table-bordered", "table-striped");
 
     const indicatorsHeaderRow = document.createElement("tr");
-    const indicatorHeaders = ["Label", "Completeness (%)", "Missing rate (%)", "Uniqueness (%)"];
+    const indicatorHeaders = ["Label", "Completeness (%)", "Missing rate (%)", "Uniqueness (%)", "Data Type", "Unit"];
     indicatorHeaders.forEach((header) => {
       const columnHeader = document.createElement("th");
       columnHeader.scope = "col";
@@ -139,7 +162,7 @@ function renderQualityReport(cohortLabels, tables, outputDivId) {
     Object.values(report.indicators).forEach((indicator) => {
       const indicatorRow = document.createElement("tr");
 
-      [indicator.label, indicator.completeness, indicator.missingValues, indicator.uniqueness].forEach((value) => {
+      [indicator.label, indicator.completeness, indicator.missingValues, indicator.uniqueness, indicator.dataType, indicator.unit].forEach((value) => {
         const dataCell = document.createElement("td");
         dataCell.textContent = value;
         indicatorRow.appendChild(dataCell);
