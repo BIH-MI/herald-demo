@@ -26,7 +26,7 @@ function ghdmLoadScripts(callback) {
 					'libs/nearley.min.js',
 
 					// Internal (Do not change the order!)
-					'js/ghdm.js',
+					'js/ghdm-data.js',
 					'js/ghdm-ui.js',
 					'js/herald-core.js',
 					'js/herald-ui.js',
@@ -34,7 +34,8 @@ function ghdmLoadScripts(callback) {
 					'js/ghdm-render-description.js',
 					'js/ghdm-render-quality.js',
 					'js/ghdm-render-scatter.js',
-					'js/ghdm-render-time-to-event.js'
+					'js/ghdm-render-time-to-event.js',
+					'js/ghdm-render-tables.js'
 				], callback);
 }
 
@@ -48,8 +49,8 @@ function ghdmLoadStyles(callback) {
 				'libs/query-builder.default.min.css',
 				'libs/flatpickr.min.css',
 				// Internal
-				'js/ghdm-ui.css',
-				'js/herald-ui.css'
+				'css/ghdm-ui.css',
+				'css/herald-ui.css'
 				], callback);
 }
 
@@ -139,6 +140,8 @@ function pluginVisualize(cohorts) {
 		  renderQualityReport(selectedCohorts, tables, "output");
 		} else if (selectedVisualization === "scatter") {
 		  renderScatterPlots(selectedCohorts, tables, "output");
+		} else if (selectedVisualization === "table") {
+			renderTables(selectedCohorts, tables, "output");
 		}
 
 	});

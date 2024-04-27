@@ -64,7 +64,7 @@
           ['PneunomiaDiagnosis', 'FIRST (LABEL = "*Pneumonia*")'],
           ['FirstScoreMMSE', 'FIRST (LABEL = "*Total score MMSE*")'],
           ['LastScoreMMSE', 'LAST (LABEL = "*Total score MMSE*")'],
-          ['ModerateScoreMMSE', 'FIRST (LABEL = "*Total score MMSE*" AND VALUE  < "20" AND VALUE > "10")'],
+          ['ModerateScoreMMSE', 'FIRST (LABEL = "*Total score MMSE*" AND VALUE > "10" AND VALUE  <= "20")'],
           ['SevereScoreMMSE', 'FIRST (LABEL = "*Total score MMSE*" AND VALUE  <= "10")'], 
           ['Medications', 'MOST FREQUENT (LABEL = "*Medications*")'],
           ['CarePlans', 'ANY (LABEL = "*Care Plans*")']
@@ -106,8 +106,8 @@
         })
         .then(
           jsonData => {
-            loadScript("js/ghdm.js",
-              () => loadScript("demo-logic.js",
+            loadScript("js/ghdm-data.js",
+              () => loadScript("js/demo-logic.js",
                   () => ghdmLoadStyles(
                       () => ghdmLoadContent(
                           () => ghdmLoadScripts(
