@@ -61,7 +61,7 @@
         dataUrl = 'data/cohort-comparison-alzheimers.json';
         predefinedQueries = [
           [`Alzheimer'sDiagnosis`, `FIRST (LABEL = "*Alzheimer's disease (disorder)*" OR LABEL = "*Familial Alzheimer's disease of early onset (disorder)*")`],
-          ['PneunomiaDiagnosis', 'FIRST (LABEL = "*Pneumonia*")'],
+          ['PneumoniaDiagnosis', 'FIRST (LABEL = "*Pneumonia*")'],
           ['FirstScoreMMSE', 'FIRST (LABEL = "*Total score MMSE*")'],
           ['LastScoreMMSE', 'LAST (LABEL = "*Total score MMSE*")'],
           ['ModerateScoreMMSE', 'FIRST (LABEL = "*Total score MMSE*" AND VALUE > "10" AND VALUE  <= "20")'],
