@@ -10,6 +10,7 @@
 </head>
 
 <body>
+
     <!-- Header -->
 	<nav class="navbar navbar-expand-lg bg-light sticky-top">
 		<div class="container">
@@ -28,11 +29,10 @@
             <p class="mb-0" style="text-align: justify; hyphens: auto; color: #333; line-height: 1.6;">
                 <strong>HERALD (Human-centric Extraction for Research and Analysis of Longitudinal Data)</strong> 
                 is a query language designed to facilitate the extraction and aggregation of longitudinal health 
-                data into cross-sectional tables suitable for statistical analysis and machine learning. It provides 
-                self-service analytical access for medical researchers. The prototype consists of a HERALD 
-                execution engine, combined with a graphical query editor, and paired with analytics 
-                functionalities to demonstrate the capabilities of the HERALD query language. Below you'll 
-                find three different examples deployed within a web demo.
+                data into cross-sectional tables suitable for statistical analysis and machine learning. Its syntax 
+                closely mirrors natural language. The prototype consists of a parser and an
+                execution engine, combined with a graphical query editor, and analytics 
+                functionalities. Below you'll find three different examples provided as a web demo.
             </p>
         </div>
     </div>
@@ -45,10 +45,10 @@
                     <div class="card h-100 shadow-lg">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">Example 1: Coronary Heart Disease vs. Diabetes</h5>
-                            <p class="card-text" style="text-align: justify; hyphens: auto;">Explore a comparative analysis between two cohorts of patients 
+                            <p class="card-text" style="text-align: justify; hyphens: auto;">A comparative analysis between two cohorts of patients 
                                 with a primary diagnosis of either coronary heart disease or type 2 diabetes. 
-                                The dataset allows the study of demographic variables (age, sex) and common 
-                                risk factors (BMI, LDL and HDL cholesterol levels) as well as comorbidity profiles.</p>
+                                The example supports a comparison of demographic variables (age, sex) and common 
+                                risk factors (BMI, LDL and HDL cholesterol levels) as well as comorbidities.</p>
                             <a href="./demo-index.html?usecase=case1" class="btn btn-primary mt-auto" target="_blank">Open</a>
                         </div>
                     </div>
@@ -58,8 +58,8 @@
                     <div class="card h-100 shadow-lg">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">Example 2: Alzheimer's Disease</h5>
-                            <p class="card-text" style="text-align: justify; hyphens: auto;">Investigate Alzheimer's disease by comparing early-onset patients 
-                                with those diagnosed at a later stage. The dataset provided includes basic demographic information (age, sex), 
+                            <p class="card-text" style="text-align: justify; hyphens: auto;">Comparison of patients with early-onset Alzheimer's 
+                                with those diagnosed at a later stage. The example supports a comparison of basic demographic information (age, sex), 
                                 Mini-Mental State Examination (MMSE) scores to assess cognitive function, pneumonia incidence, 
                                 care plans and medications.</p>
                                 <a href="./demo-index.html?usecase=case2" class="btn btn-primary mt-auto" target="_blank">Open</a>
@@ -71,7 +71,7 @@
                     <div class="card h-100 shadow-lg">
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">Example 3: Lung Cancer</h5>
-                            <p class="card-text" style="text-align: justify; hyphens: auto;">Contrast patient cohorts diagnosed with non-small cell carcinoma of 
+                            <p class="card-text" style="text-align: justify; hyphens: auto;">Comparison of patients diagnosed with non-small cell carcinoma of 
                                 the lung of TNM stages 1 to 4, who have received combined chemotherapy and radiation therapy. Additional information on 
                                 basic demographics (age, sex), BMI, related medication and selected lab values (Hemoglobin, Glucose and eGFR) is provided.</p>
                                 <a href="./demo-index.html?usecase=case3" class="btn btn-primary mt-auto" target="_blank">Open</a>
@@ -88,17 +88,16 @@
             <div class="d-flex align-items-center mb-2">
                 <a href="https://github.com/BIH-MI/herald-lang" class="btn btn-primary me-3" target="_blank" style="width: 200px;">HERALD Lang</a>
                 <div>
-                    Explore the core infrastructure of HERALD, including its intuitive query language design, execution engine, and graphical query editor.
+                    Repository with the core components of HERALD, including a parser, an execution engine, and a graphical editor.
                 </div>
             </div>
             <div class="d-flex align-items-center">
                 <a href="https://github.com/BIH-MI/herald-demo" class="btn btn-primary me-3" target="_blank" style="width: 200px;">HERALD Demo</a>
                 <div>
-                    Discover HERALD in action with a live demo that showcases its practical application on health data.
+                    Repository containing the code of this online demo.
             </div>
         </div>
     </div>
-    
 
     <!-- Footer -->
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top bg-light">
@@ -117,5 +116,4 @@
     </footer>
 
 </body>
-
 </html>
