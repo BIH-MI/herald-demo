@@ -14,14 +14,7 @@ To deploy it locally, simply download the repository and open the `index.html` f
 
 ## Contact
 
-If you have questions or problems, please open an issue here on Github or contact us directly.
-
-| Name                          | Email                                     |
-|-------------------------------|-------------------------------------------|
-| [Fabian Prasser](https://github.com/prasser)                  | [fabian.prasser@charite.de](mailto:fabian.prasser@charite.de) |
-| [Lena Baum](https://github.com/bihmi-lb) | [lena.baum@charite.de](mailto:lena.baum@charite.de) |
-| [Armin Müller](https://github.com/muellerarmin)  | [armin.mueller@charite.de](mailto:armin.mueller@charite.de) |
-| [Marco Johns](https://github.com/Lumiukko) | [marco.johns@charite.de](mailto:marco.johns@charite.de) |
+If you have questions or problems, please open an issue here on GitHub or contact us directly.
 
 You can find out more about our work at [mi.bihealth.org](https://mi.bihealth.org).
 
