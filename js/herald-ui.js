@@ -718,6 +718,7 @@ function initHeraldQueryEntryForm() {
                         <button class="dropdown-item herald-quick-add" data-action="EXISTS">EXISTS</button>
                         <button class="dropdown-item herald-quick-add" data-action="NOT EXISTS">NOT EXISTS</button>
                         <button class="dropdown-item herald-quick-add" data-action="AVERAGE">AVERAGE</button>
+						<button class="dropdown-item herald-quick-add" data-action="MEDIAN">MEDIAN</button>
                         <button class="dropdown-item herald-quick-add" data-action="COUNT">COUNT</button>
                         <button class="dropdown-item herald-quick-add" data-action="SUM">SUM</button>
                         <button class="dropdown-item herald-quick-add" data-action="MIN">MIN</button>
@@ -1141,6 +1142,7 @@ function abbreviateKeyword(keyword) {
     "MONTH": "M",
     "YEAR": "Y",
     "AVERAGE": "Avg",
+    "MEDIAN": "Med",
     "AND": "And",
     "OR": "Or",
     "LABEL": "Lbl",
@@ -1333,7 +1335,7 @@ window.HeraldUI = HeraldUI;
  */ 
 const queryTypeKeywords = {
   selection: ['FIRST', 'LAST', 'ANY'],
-  aggregation: ['AVERAGE', 'COUNT', 'SUM', 'MIN', 'MAX', 'MOST FREQUENT'],
+  aggregation: ['AVERAGE', 'MEDIAN', 'COUNT', 'SUM', 'MIN', 'MAX', 'MOST FREQUENT'],
   existence: ['EXISTS', 'NOT EXISTS'],
   relationship: ['RATIO BETWEEN', 'DIFFERENCE BETWEEN', 'EQUALITY OF'],
 };
