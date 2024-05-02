@@ -22,7 +22,7 @@ function getHeraldLexer(ignoreErrors = false) {
        conjunctionAnd: ['AND'],
        conjunctionOr: ['OR'],
        field: ['LABEL', 'VALUE', 'UNIT', 'START', 'END', 'NUMERIC'],
-       aggregation: ['AVERAGE', 'COUNT', 'SUM', 'MIN', 'MAX', 'MOST FREQUENT'],
+       aggregation: ['AVERAGE', 'MEDIAN', 'COUNT', 'SUM', 'MIN', 'MAX', 'MOST FREQUENT'],
        selection: ['FIRST', 'LAST', 'ANY'],
        relationship: ['RATIO BETWEEN', 'DIFFERENCE BETWEEN', 'EQUALITY OF'],
        existence: ['EXISTS', 'NOT EXISTS'],
@@ -96,7 +96,7 @@ window.Herald = Herald;
         conjunctionAnd: ['AND'],
         conjunctionOr: ['OR'],
         field: ['LABEL', 'VALUE', 'UNIT', 'START', 'END', 'NUMERIC'],
-        aggregation: ['AVERAGE', 'COUNT', 'SUM', 'MIN', 'MAX', 'MOST FREQUENT'],
+        aggregation: ['AVERAGE', 'MEDIAN', 'COUNT', 'SUM', 'MIN', 'MAX', 'MOST FREQUENT'],
         selection: ['FIRST', 'LAST', 'ANY'],
         relationship: ['RATIO BETWEEN', 'DIFFERENCE BETWEEN', 'EQUALITY OF'],
         existence: ['EXISTS', 'NOT EXISTS'],
@@ -617,6 +617,28 @@ function parseFilter(observations, query) {
               aggregatedUnit = validateUnit(null);
             }
           }
+          break;
+        }
+        case 'MEDIAN': {
+          let numericObservations = observations.filter(obs => obs.isNumeric);
+          if(numericObservations && numericObservations.length > 0){
+            numericObservations.sort((a, b) => a.value - b.value);
+            const count = numericObservations.length;
+            const middleIndex = Math.floor(count / 2);
+            if (count % 2 === 0) {
+              // Return average of two middle values
+              aggregatedValue = (parseFloat(numericObservations[middleIndex - 1].value) + parseFloat(numericObservations[middleIndex].value))/2;
+              aggregatedUnit = numericObservations[middleIndex - 1].unit === numericObservations[middleIndex].unit ? numericObservations[middleIndex].unit : "Mixed";
+            } else {
+              // Return value of the middle index
+              aggregatedValue = numericObservations[middleIndex].value;
+              aggregatedUnit = validateUnit(numericObservations[middleIndex].unit);
+            }
+          } else {
+            aggregatedValue = null;
+            aggregatedUnit = validateUnit(null);
+          }
+          
           break;
         }
         case 'COUNT': {
