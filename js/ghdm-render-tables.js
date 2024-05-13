@@ -40,7 +40,7 @@ function renderTables(cohortLabels, tables, outputDivId) {
     table[0].forEach((concept) => {
       const columnHeader = document.createElement("th");
       columnHeader.scope = "col";
-      columnHeader.innerHTML = sanitizeHTML(`${concept}`) + `<br> (Missing Rate: ${calculateMissingRate(concept, table)}%)`;
+      columnHeader.innerHTML = sanitizeHTML(`${concept}`) + `<br> (#Values: ${countValues(concept, table)})`;
       headerRow.appendChild(columnHeader);
     });
 
@@ -110,6 +110,30 @@ function calculateMissingRate(concept, table) {
 
   // Round to 2 decimal places
   return missingRate.toFixed(2);
+}
+
+/**
+ * Utility function to calculate number of values for a concept in the cross-sectional table
+ */
+function countValues(concept, table) {
+
+  // Get the index of the concept in the header row
+  let conceptIndex = table[0].indexOf(concept);
+
+  // Concept does not exist in the table
+  if (conceptIndex === -1) {
+    return undefined;
+  }
+
+  // Count the number of existing values for the concept
+  let existingCount = 0;
+  for (let i = 1; i < table.length; i++) {
+    if (table[i][conceptIndex] != null || table[i][conceptIndex] != undefined) {
+      existingCount++;
+    }
+  }
+
+  return existingCount;
 }
 
 /**
