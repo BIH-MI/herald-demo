@@ -2,7 +2,7 @@
 
 ## About HERALD
 
-HERALD stands for Human-centric Extraction for Research and Analysis of Longitudinal Data. It is a specialized query language designed to facilitate the extraction and aggregation of longitudinal data into cross-sectional tables for statistical analysis and machine learning. The design of HERALD's syntax is intuitive, closely mirroring natural language. The prototype implementation consists of a query excecution engine, combined with a graphical query editor, and a web demo with analytics functionalities. 
+HERALD stands for Human-centric Extraction for Research and Analysis of Longitudinal Data. It is a specialized query language designed to facilitate the extraction and aggregation of longitudinal data into cross-sectional tables for statistical analysis and machine learning. The design of HERALD's syntax is intuitive, closely mirroring natural language. The implementation consists of a query excecution engine, combined with a graphical query editor, and a web demo with analytics functionalities. 
 
 This repository contains the code of the demo accessible at [herald-lang.org](http://herald-lang.org). It uses bundled versions of the basic modules of HERALD hosted at [herald-lang](https://github.com/BIH-MI/herald-lang), together with the implementation of the demo.
 
